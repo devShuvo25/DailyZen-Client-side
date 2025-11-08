@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@plugin "daisyui";
+.my-btn{
+    @apply bg-gradient-to-r from-[#03a9f0] to-[#016ebc] text-white
+}
