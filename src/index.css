@@ -1,5 +1,24 @@
 @import "tailwindcss";
 @plugin "daisyui";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+.inter-font {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight:400;
+  font-style: normal;
+}
 .my-btn{
     @apply bg-gradient-to-r from-[#03a9f0] to-[#016ebc] text-white
+}
+.color-primary{
+    @apply text-[#019EE3]
+}
+.color-acent{
+    @apply text-[#F59E0B]
+}
+.color-bg{
+    @apply bg-[#F9FAFB]
+}
+.color-text{
+    @apply text-[#1E293B]
 }

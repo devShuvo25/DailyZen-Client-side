@@ -34,11 +34,24 @@ const Navbar = () => {
        {/* All links are here */}
       </ul>
     </div>
-    <a className=" text-2xl font-bold"><span className='text-[#019EE3]'>My </span>Appli<span className='text-[#019EE3]'>cation</span></a>
+    <a className=" text-2xl font-bold"><span className='color-primary'>My </span>Appli<span className='text-[#019EE3]'>cation</span></a>
   </div>
-  <div className="navbar-center hidden lg:flex">
+  <div className="navbar-center hidden lg:flex gap-5 items-center">
     <ul className="menu menu-horizontal px-1">
      {/* All links are here */}
+     <Link to={'/'} className='color-text font-semibold'>Home</Link>
+    </ul>
+    <ul className="menu menu-horizontal px-1">
+     {/* All links are here */}
+     <Link to={'/add-habit'}  className='color-text font-semibold'>Add Habit</Link>
+    </ul>
+    <ul className="menu menu-horizontal px-1">
+     {/* All links are here */}
+     <Link to={'/my-habits'} className='color-text font-semibold'>My Habits</Link>
+    </ul>
+    <ul className="menu menu-horizontal px-1">
+     {/* All links are here */}
+     <Link to={'/public-habits'} className='color-text font-semibold'>Public Habits</Link>
     </ul>
   </div>
   <div className="navbar-end">
