@@ -8,10 +8,13 @@
   font-style: normal;
 }
 .my-btn{
-    @apply bg-gradient-to-r from-[#03a9f0] to-[#016ebc] text-white
+    @apply bg-gradient-to-r from-[#3BB143] to-[#63e46c] text-white
+}
+.my-btn-2{
+    @apply bg-[#F59E0B] shadow-none
 }
 .color-primary{
-    @apply text-[#019EE3]
+    @apply text-[#3BB143]
 }
 .color-acent{
     @apply text-[#F59E0B]

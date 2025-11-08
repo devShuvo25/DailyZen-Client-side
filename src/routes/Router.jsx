@@ -7,6 +7,7 @@ import Registere from "../pages/Registere";
 import MyHabits from "../pages/MyHabits";
 import AddHabits from "../pages/AddHabits";
 import PublicHabits from "../pages/PublicHabits";
+import PrivetRoute from "../PrivetRoutes/PrivetRoute";
 
 const routes = createBrowserRouter([
     {
@@ -19,11 +20,15 @@ const routes = createBrowserRouter([
             },
             {
                 path:'/add-habit',
-                Component:AddHabits
+                element:<PrivetRoute>
+                    <AddHabits/>
+                </PrivetRoute>
             },
             {
                 path:'/my-habits',
-                Component:MyHabits
+                element:<PrivetRoute>
+                    <MyHabits/>
+                </PrivetRoute>
             },
             {
                 path:'/login',
@@ -31,7 +36,9 @@ const routes = createBrowserRouter([
             },
             {
                 path:'/public-habits',
-                Component:PublicHabits
+                element:<PrivetRoute>
+                    <PublicHabits/>
+                </PrivetRoute>
             },
             {
                 path:'/register',

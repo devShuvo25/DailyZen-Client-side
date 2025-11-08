@@ -5,27 +5,28 @@ import Swal from "sweetalert2";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 const Registere = () => {
-  const { createUser,googleSignIn,setUser,user } = useAuth();
+  const { createUser, googleSignIn, setUser, user } = useAuth();
   const navigate = useNavigate();
-  const [error,setError] =useState('');
-  const [isActive,setIsActive] = useState(false)
-  const [isDisable,setIsDisable] = useState(true);
-   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+  const [error, setError] = useState("");
+  const [isActive, setIsActive] = useState(false);
+  const [isDisable, setIsDisable] = useState(true);
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  const handlePassword = (e)  => {
+  const handlePassword = (e) => {
     const password = e.target.value;
-    if(regex.test(password)){
-        setError('');
-        setIsDisable(false)
+    if (regex.test(password)) {
+      setError("");
+      setIsDisable(false);
+    } else if (password === "") {
+      setError("");
+    } else {
+      setError(
+        "Password must contain at least 8 characters,including uppercase, lowercase, number, and special character"
+      );
+      setIsDisable(true);
     }
-    else if(password === ''){
-        setError('');
-    }
-    else{
-        setError('Password must contain at least 8 characters,including uppercase, lowercase, number, and special character');
-        setIsDisable(true);
-    }
-  }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, email, photoURL, password } = {
@@ -35,46 +36,45 @@ const Registere = () => {
       password: e.target.password.value,
     };
 
-    if(regex.test(password)){
-         createUser(email, password)
-      .then((result) => {
-        console.log(result);
-        if (result) {
-          e.target.reset();
-          Swal.fire({
-            title: "Succesfully Created Account",
-            icon: "success",
-            draggable: true,
-          });
-          navigate('/login')
-        }
-      })
-      .catch((err) => {
-        setError(err.message)
-      });
+    if (regex.test(password)) {
+      createUser(email, password)
+        .then((result) => {
+          console.log(result);
+          if (result) {
+            e.target.reset();
+            Swal.fire({
+              title: "Succesfully Created Account",
+              icon: "success",
+              draggable: true,
+            });
+            navigate("/login");
+          }
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
     }
   };
   const handleGoogleSingin = () => {
-    googleSignIn()
-    .then(result => {
-        console.log('Succesfully login with :' , result?.user.email)
-        setUser(result?.user)
-        navigate('/login')
-    })
-  }
+    googleSignIn().then((result) => {
+      console.log("Succesfully login with :", result?.user.email);
+      setUser(result?.user);
+      navigate("/login");
+    });
+  };
   return (
     <div className="">
       <div className="hero bg-base-200 p-5 ">
         <div className="  card bg-white shadow-sm flex flex-row  w-full max-w-md shrink-0  p-3">
           <div className="card-body w-full ">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-[#019EE3]">Register</h1>
+              <h1 className="text-4xl font-bold color-primary">Register</h1>
             </div>
             <form onSubmit={handleSubmit}>
               <fieldset className="fieldset w-full ">
                 <label className="label">Name</label>
                 <input
-                required
+                  required
                   type="text"
                   name="name"
                   className="w-full input border-1px border-[#019EE3] outline-0 rounded-full"
@@ -98,36 +98,42 @@ const Registere = () => {
                 />
                 <label className="label ">Password</label>
                 <div className="relative overflow-visible">
-                    <input
-                onChange={handlePassword}
-                  type={isActive? 'text' : 'password'}
-                  required
-                  name="password"
-                  className=" w-full p-[11px] outline-[1px] outline-[#019EE3] border-1px border-[#019EE3] rounded-full "
-                  placeholder="Password"
-                />
-                <div
-                onClick={() => setIsActive(!isActive)}
-                className="absolute overflow-visible top-[13px] right-5  cursor-pointer">
-                    {!isActive? < IoEyeOffOutline  size={15}/> : <IoEyeOutline size={15}/>}
-                    
-                </div>
+                  <input
+                    onChange={handlePassword}
+                    type={isActive ? "text" : "password"}
+                    required
+                    name="password"
+                    className=" w-full p-[11px] outline-[1px] outline-[#019EE3] border-1px border-[#019EE3] rounded-full "
+                    placeholder="Password"
+                  />
+                  <div
+                    onClick={() => setIsActive(!isActive)}
+                    className="absolute overflow-visible top-[13px] right-5  cursor-pointer"
+                  >
+                    {!isActive ? (
+                      <IoEyeOffOutline size={15} />
+                    ) : (
+                      <IoEyeOutline size={15} />
+                    )}
+                  </div>
                 </div>
                 <div>
                   <a className="link link-hover">Forgot password?</a>
                 </div>
                 <div>
-                    <p className="text-red-600">{error}</p>
+                  <p className="text-red-600">{error}</p>
                 </div>
                 <button
-                disabled={isDisable}
-                className="btn my-btn text-white mt-4 rounded-full disabled:opacity-50">
+                  disabled={isDisable}
+                  className="btn my-btn text-white mt-4 rounded-full disabled:opacity-50"
+                >
                   Login
                 </button>
                 <button
-                type="button"
-                onClick={handleGoogleSingin}
-                className="btn bg-white rounded-full text-black border-[#e5e5e5]">
+                  type="button"
+                  onClick={handleGoogleSingin}
+                  className="btn bg-white rounded-full text-black border-[#e5e5e5]"
+                >
                   <svg
                     aria-label="Google logo"
                     width="16"
@@ -159,7 +165,7 @@ const Registere = () => {
                 </button>
                 <p>
                   Alreasy have an account?{" "}
-                  <Link to={"/login"} className="text-[#019EE3]  underline">
+                  <Link to={"/login"} className="color-primary  underline">
                     Login
                   </Link>
                 </p>

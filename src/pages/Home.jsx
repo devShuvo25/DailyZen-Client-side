@@ -1,6 +1,10 @@
 // import React, { use } from 'react';
+import { Features } from 'tailwindcss';
+import Banner from '../components/Banner';
 import { AuthContext } from '../context/AuthContext';
 import useAuth from '../hooks/useAuth';
+import HabitsFeatures from '../components/HabitFeatures';
+import BadHabits from '../components/BadHabits';
 
 const Home = () => {
     const {user} = useAuth();
@@ -14,7 +18,9 @@ const Home = () => {
     
     return (
         <div>
-            <h1>This is the home page</h1>
+            <Banner/>
+            <HabitsFeatures/>
+            <BadHabits/>
         </div>
     );
 };
