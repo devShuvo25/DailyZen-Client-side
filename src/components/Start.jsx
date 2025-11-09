@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 const StartJourney = () => {
   return (
@@ -16,9 +17,9 @@ const StartJourney = () => {
         <p className="text-habit-text/70 mb-8">
           HabitFlow helps you track daily actions, stay accountable, and reach your goals — one habit at a time.
         </p>
-        <button className="btn my-btn-2 text-white px-8 py-3 rounded-full font-medium hover:bg-habit-accent transition-all duration-300">
-          Get Started Now
-        </button>
+        <Link to={'/add-habit'} className="btn my-btn-2 text-white px-8 py-3 rounded-full font-medium hover:bg-habit-accent transition-all duration-300">
+          Add a new Habit now
+        </Link>
       </motion.div>
        <section className="bg-habit-bg py-16">
       <motion.div

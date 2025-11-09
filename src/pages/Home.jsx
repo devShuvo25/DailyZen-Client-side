@@ -23,7 +23,7 @@ const Home = () => {
             <Banner/>
             <HabitsFeatures/>
             <BadHabits/>
-            <BadHabitsCard/>
+            
             <StartJourney/>
         </div>
     );

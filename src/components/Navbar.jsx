@@ -1,6 +1,6 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
-import { Link, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 const Navbar = () => {
@@ -57,27 +57,27 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex gap-5 items-center">
         <ul className="menu menu-horizontal px-1">
           {/* All links are here */}
-          <Link to={"/"} className="color-text font-semibold">
+          <NavLink to={"/"} className={({isActive}) => isActive? 'color-primary font-semibold underline':"color-text font-semibold"  }>
             Home
-          </Link>
+          </NavLink>
         </ul>
         <ul className="menu menu-horizontal px-1">
           {/* All links are here */}
-          <Link to={"/add-habit"} className="color-text font-semibold">
+          <NavLink to={"/add-habit"} className={({isActive}) => isActive? 'color-primary font-semibold underline':"color-text font-semibold"  }>
             Add Habit
-          </Link>
+          </NavLink>
         </ul>
         <ul className="menu menu-horizontal px-1">
           {/* All links are here */}
-          <Link to={"/my-habits"} className="color-text font-semibold">
+          <NavLink to={"/my-habits"} className={({isActive}) => isActive? 'color-primary font-semibold underline':"color-text font-semibold"  }>
             My Habits
-          </Link>
+          </NavLink>
         </ul>
         <ul className="menu menu-horizontal px-1">
           {/* All links are here */}
-          <Link to={"/public-habits"} className="color-text font-semibold">
+          <NavLink to={"/public-habits"} className={({isActive}) => isActive? 'color-primary font-semibold underline':"color-text font-semibold"  }>
             Public Habits
-          </Link>
+          </NavLink>
         </ul>
       </div>
       <div className="navbar-end">

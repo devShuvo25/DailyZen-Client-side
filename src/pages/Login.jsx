@@ -74,7 +74,7 @@ const Login = () => {
                 <input
                   name="email"
                   type="email"
-                  className="w-full input border-1px border-[#019EE3] outline-0 rounded-full"
+                  className="w-full input border-1px border-[#3BB143] outline-0 rounded-full"
                   placeholder="Email"
                 />
                 <label className="label ">Password</label>
@@ -84,7 +84,7 @@ const Login = () => {
                     type={isActive ? "text" : "password"}
                     required
                     name="password"
-                    className=" w-full p-[11px] outline-[1px] outline-[#019EE3] border-1px border-[#019EE3] rounded-full "
+                    className=" w-full p-[11px] outline-[1px] outline-[#3BB143] border-1px border-[#019EE3] rounded-full "
                     placeholder="Password"
                   />
                   <div

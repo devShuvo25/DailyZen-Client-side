@@ -77,7 +77,7 @@ const Registere = () => {
                   required
                   type="text"
                   name="name"
-                  className="w-full input border-1px border-[#019EE3] outline-0 rounded-full"
+                  className="w-full input border-1px border-[#3BB143] outline-0 rounded-full"
                   placeholder="Name"
                 />
                 <label className="label">Email</label>
@@ -85,7 +85,7 @@ const Registere = () => {
                   type="email"
                   required
                   name="email"
-                  className="w-full input border-1px border-[#019EE3] outline-0 rounded-full"
+                  className="w-full input border-1px border-[#3BB143] outline-0 rounded-full"
                   placeholder="Email"
                 />
                 <label className="label">Photo URL</label>
@@ -93,7 +93,7 @@ const Registere = () => {
                   type="text"
                   required
                   name="photoURL"
-                  className="w-full input border-1px border-[#019EE3] outline-0 rounded-full"
+                  className="w-full input border-1px border-[#3BB143] outline-0 rounded-full"
                   placeholder="Photo URL"
                 />
                 <label className="label ">Password</label>
@@ -103,7 +103,7 @@ const Registere = () => {
                     type={isActive ? "text" : "password"}
                     required
                     name="password"
-                    className=" w-full p-[11px] outline-[1px] outline-[#019EE3] border-1px border-[#019EE3] rounded-full "
+                    className=" w-full p-[11px] outline-[1px] outline-[#3BB143] border-1px border-[#3BB143] rounded-full "
                     placeholder="Password"
                   />
                   <div
