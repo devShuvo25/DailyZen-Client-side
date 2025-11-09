@@ -5,6 +5,8 @@ import { AuthContext } from '../context/AuthContext';
 import useAuth from '../hooks/useAuth';
 import HabitsFeatures from '../components/HabitFeatures';
 import BadHabits from '../components/BadHabits';
+import BadHabitsCard from '../components/BadHabitsCard';
+import StartJourney from '../components/Start';
 
 const Home = () => {
     const {user} = useAuth();
@@ -21,6 +23,8 @@ const Home = () => {
             <Banner/>
             <HabitsFeatures/>
             <BadHabits/>
+            <BadHabitsCard/>
+            <StartJourney/>
         </div>
     );
 };
