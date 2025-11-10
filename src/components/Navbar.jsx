@@ -2,6 +2,7 @@ import React from "react";
 import useAuth from "../hooks/useAuth";
 import { Link, NavLink, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { GrWheelchairActive } from "react-icons/gr";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -22,7 +23,7 @@ const Navbar = () => {
       });
   };
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 shadow-sm px-5">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -50,8 +51,10 @@ const Navbar = () => {
           </ul>
         </div>
         <a className=" text-2xl font-bold">
+          <div className="flex justify-center items-center">
+            <span><GrWheelchairActive color="#3BB143" /></span>
           <span className="">Daily </span>
-          <span className="color-primary"> Zone</span>
+          <span className="color-primary"> Zone</span></div>
         </a>
       </div>
       <div className="navbar-center hidden lg:flex gap-5 items-center">
@@ -82,9 +85,15 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         {user ? (
-          <Link onClick={handleLogout} className="btn my-btn">
+          <div className="flex justify-center items-center gap-5">
+            <Link onClick={handleLogout} className="btn my-btn">
             Logout
           </Link>
+          <button className=" rounded-[50%] cursor-pointer">
+            <img className="h-[20px] w-[20px] rounded-[50%]" src={user?.photoURL || 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?cs=srgb&dl=pexels-italo-melo-881954-2379004.jpg&fm=jpg'} alt="" />
+          </button>
+          </div>
+          
         ) : (
           <div className="flex justify-between gap-5">
             <Link to={"/login"} className="btn my-btn">

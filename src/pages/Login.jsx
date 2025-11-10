@@ -11,7 +11,7 @@ const Login = () => {
   const [isDisable, setIsDisable] = useState(true);
   const navigate = useNavigate();
   const regex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
   // client side validation
   const handlePassword = (e) => {
     const password = e.target.value;
@@ -22,7 +22,7 @@ const Login = () => {
       setError("");
     } else {
       setError(
-        "Password must contain at least 8 characters,including uppercase, lowercase, number, and special character"
+        "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
       );
       setIsDisable(true);
     }

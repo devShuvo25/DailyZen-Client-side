@@ -1,4 +1,8 @@
 import React from 'react';
+import { CiCalendarDate } from 'react-icons/ci';
+import { FaFlagCheckered } from 'react-icons/fa';
+import { GiCheckeredFlag } from 'react-icons/gi';
+import { GrWheelchairActive } from 'react-icons/gr';
 import { IoSunnyOutline } from 'react-icons/io5';
 
 const MyHabits = () => {
@@ -29,24 +33,24 @@ const MyHabits = () => {
         <div className='h-[180px]  bg-green-100 w-[200px] flex flex-col items-center justify-center gap-2 rounded-lg'>
             <IoSunnyOutline size={35} className='color-acent'/>
             <h3 className='text-xl font-semibold'>Habits Added</h3>
-            <div className='rounded-[50%] border-[1px] border-green-400 h-[70px] w-[70px] flex justify-center items-center'>
+            <div className='rounded-[50%]  h-[70px] w-[70px] flex justify-center items-center'>
             <h1 className='text-6xl font-bold color-primary'>8</h1>
             </div>
         </div>
         <div className='h-[160px]  bg-green-100 w-[200px] flex flex-col items-center justify-center gap-2 rounded-lg'>
-            <IoSunnyOutline size={35} className='color-acent'/>
-            <h3 className='text-xl font-semibold'>Habits Added</h3>
-            <h1 className='text-6xl font-bold color-primary'>8</h1>
+            <CiCalendarDate  size={35} className='color-acent'/>
+            <h3 className='text-xl font-semibold'>Current Streak</h3>
+            <h1 className='text-6xl font-bold color-primary'>12</h1>
         </div>
         <div className='h-[160px]  bg-green-100 w-[200px] flex flex-col items-center justify-center gap-2 rounded-lg'>
-            <IoSunnyOutline size={35} className='color-acent'/>
-            <h3 className='text-xl font-semibold'>Habits Added</h3>
-            <h1 className='text-6xl font-bold color-primary'>8</h1>
+            <GiCheckeredFlag size={35} className='color-acent'/>
+            <h3 className='text-xl font-semibold'>Completed</h3>
+            <h1 className='text-6xl font-bold color-primary'>4</h1>
         </div>
         <div className='h-[160px]  bg-green-100 w-[200px] flex flex-col items-center justify-center gap-2 rounded-lg'>
-            <IoSunnyOutline size={35} className='color-acent'/>
-            <h3 className='text-xl font-semibold'>Habits Added</h3>
-            <h1 className='text-6xl font-bold color-primary'>8</h1>
+            <GrWheelchairActive size={35} className='color-acent'/>
+            <h3 className='text-xl font-semibold'>Active Habits</h3>
+            <h1 className='text-6xl font-bold color-primary'>5</h1>
         </div>
     </div>
     {/* table of my  habits */}

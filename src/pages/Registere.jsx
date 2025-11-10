@@ -10,8 +10,7 @@ const Registere = () => {
   const [error, setError] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
-  const regex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const regex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
 
   const handlePassword = (e) => {
     const password = e.target.value;
@@ -22,7 +21,7 @@ const Registere = () => {
       setError("");
     } else {
       setError(
-        "Password must contain at least 8 characters,including uppercase, lowercase, number, and special character"
+        "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
       );
       setIsDisable(true);
     }
