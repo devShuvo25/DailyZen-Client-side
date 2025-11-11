@@ -7,6 +7,7 @@ import HabitsFeatures from '../components/HabitFeatures';
 import BadHabits from '../components/BadHabits';
 import BadHabitsCard from '../components/BadHabitsCard';
 import StartJourney from '../components/Start';
+import Spinners from '../components/Spinners';
 
 const Home = () => {
     const {user} = useAuth();

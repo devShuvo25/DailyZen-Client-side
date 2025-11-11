@@ -10,8 +10,7 @@ const Login = () => {
   const [isActive, setIsActive] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
   const navigate = useNavigate();
-  const regex =
-    /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
+  const regex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
   // client side validation
   const handlePassword = (e) => {
     const password = e.target.value;

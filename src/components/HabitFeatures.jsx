@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import CardFrFeatures from './CardFrFeatures';
 import { motion } from "framer-motion";
 import useAxiosSecure from '../hooks/useAxiosSecure';
+import useAuth from '../hooks/useAuth';
+import Spinners from './Spinners';
 
 const HabitsFeatures = ({children, direction = "left"}) => {
     const [habits,setHabits] = useState([]);
     const {instance} = useAxiosSecure();
+    const {isLoading} = useAuth();
     useEffect(() => {
         instance.get('/latest-fatures')
         .then(result => {
@@ -28,6 +31,9 @@ const HabitsFeatures = ({children, direction = "left"}) => {
     return (
         <div className='p-5'>
             <h1 className='text-4xl font-semibold  text-center'>Latest <span className='color-primary'>Features</span></h1>
+            {
+                isLoading? <Spinners/> :
+            
             <motion.div
              initial={{ y: direction === "to" ? -100 : 100, opacity: 0 }}
              whileInView={{ y: 0, opacity: 1 }}
@@ -35,12 +41,14 @@ const HabitsFeatures = ({children, direction = "left"}) => {
              transition={{ duration: 0.8 }}
                  className='my-10 grid grid-cols-2 lg:grid-cols-3 gap-8'>
                 {
+                    
                     habits.map(p => <CardFrFeatures p={p}/>)
                     
                 }
                 {children}
                 
                 </motion.div>
+                }
                 <h1 className='text-4xl font-semibold text-center mb-10'>Why Build <span className='color-primary'>Habits?</span></h1>
 
                 <motion.div

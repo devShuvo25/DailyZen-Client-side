@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({children}) => {
     const [user,setUser] = useState(null);
+    const [isLoading,setIsLoading] =useState(true);
 
     // signin with google
     const googleSignIn = () =>{
@@ -28,6 +29,7 @@ const AuthProvider = ({children}) => {
         const unsubscribe = onAuthStateChanged(auth,currentUser => {
             console.log('Auth state', currentUser)
             setUser(currentUser)
+            setIsLoading(false)
         })
         return ()  => unsubscribe();
     },[])
@@ -39,7 +41,9 @@ const AuthProvider = ({children}) => {
         login,
         logout,
         setUser,
-        user
+        user,
+        isLoading,
+        setIsLoading
         
     };
     return (

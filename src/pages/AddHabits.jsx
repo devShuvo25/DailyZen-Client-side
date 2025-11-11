@@ -28,6 +28,8 @@ const AddHabits = () => {
       description: e.target.description.value,
       category: e.target.category.value,
       reminderTime: e.target.time.value,
+      completion_history: [],
+      current_streak: 0,
       created_at: new Date().toLocaleString(),
       image: e.target.image.value,
       user_email: e.target.email.value,

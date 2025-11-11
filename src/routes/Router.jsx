@@ -9,6 +9,8 @@ import AddHabits from "../pages/AddHabits";
 import PublicHabits from "../pages/PublicHabits";
 import PrivetRoute from "../PrivetRoutes/PrivetRoute";
 import UpdateHabit from "../pages/UpdateHabit";
+import ErrorPage from "../pages/Error";
+import Details from "../pages/Details";
 
 const routes = createBrowserRouter([
     {
@@ -50,6 +52,14 @@ const routes = createBrowserRouter([
                 element:<PrivetRoute>
                     <UpdateHabit/>
                 </PrivetRoute>
+            },
+            {
+                path:'*',
+                Component:ErrorPage
+            },
+            {
+                path:"/habit-details",
+                Component:Details
             }
         ]
     }

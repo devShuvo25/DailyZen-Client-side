@@ -3,8 +3,10 @@ import useAuth from '../hooks/useAuth';
 import { Navigate } from 'react-router';
 
 const PrivetRoute = ({children}) => {
-    const {user} = useAuth();
-
+    const {user,isLoading} = useAuth();
+    if(isLoading){
+        return <p>Loading</p>
+    }
     if(!user){
         return <Navigate to={'/login'}></Navigate>
     }

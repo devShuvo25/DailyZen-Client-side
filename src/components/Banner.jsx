@@ -5,7 +5,8 @@ const Banner = () => {
     return (
         <div class="relative w-full h-[500px]">
   
-  <img src="https://images.pexels.com/photos/3764537/pexels-photo-3764537.jpeg?cs=srgb&dl=pexels-olly-3764537.jpg&fm=jpg" class="w-full h-full object-cover" />
+  <img src="https://images.pexels.com/photos/3764537/pexels-photo-3764537.jpeg?cs=srgb&dl=pexels-olly-3764537.jpg&fm=jpg" 
+  class="w-full h-full object-cover" />
 
 
   <div class="absolute inset-0 bg-black opacity-50"></div>
