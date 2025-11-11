@@ -8,6 +8,7 @@ import MyHabits from "../pages/MyHabits";
 import AddHabits from "../pages/AddHabits";
 import PublicHabits from "../pages/PublicHabits";
 import PrivetRoute from "../PrivetRoutes/PrivetRoute";
+import UpdateHabit from "../pages/UpdateHabit";
 
 const routes = createBrowserRouter([
     {
@@ -43,6 +44,12 @@ const routes = createBrowserRouter([
             {
                 path:'/register',
                 Component:Registere
+            },
+            {
+                path:'/update-habit',
+                element:<PrivetRoute>
+                    <UpdateHabit/>
+                </PrivetRoute>
             }
         ]
     }

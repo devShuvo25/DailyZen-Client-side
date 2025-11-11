@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import CardFrFeatures from './CardFrFeatures';
 import { motion } from "framer-motion";
+import useAxiosSecure from '../hooks/useAxiosSecure';
 
 const HabitsFeatures = ({children, direction = "left"}) => {
-    const [data,setData] =useState([]);
-    const [dataIm,setDataIm] =useState([]);
+    const [habits,setHabits] = useState([]);
+    const {instance} = useAxiosSecure();
     useEffect(() => {
-        fetch('data.json')
-        .then(res => res.json())
-        .then(data => {
-            setData(data)
+        instance.get('/latest-fatures')
+        .then(result => {
+            console.log(result.data);
+            setHabits(result.data);
         })
-    })
+    },[instance])
+    const [dataIm,setDataIm] =useState([]);
+ 
     useEffect(() => {
         fetch('importance.json')
         .then(res => res.json())
@@ -19,8 +22,8 @@ const HabitsFeatures = ({children, direction = "left"}) => {
             setDataIm(data)
         })
 
-    })
-    const featuresData = data.slice(0,6);
+    },[])
+  
     
     return (
         <div className='p-5'>
@@ -32,7 +35,7 @@ const HabitsFeatures = ({children, direction = "left"}) => {
              transition={{ duration: 0.8 }}
                  className='my-10 grid grid-cols-2 lg:grid-cols-3 gap-8'>
                 {
-                    featuresData.map(p => <CardFrFeatures p={p}/>)
+                    habits.map(p => <CardFrFeatures p={p}/>)
                     
                 }
                 {children}

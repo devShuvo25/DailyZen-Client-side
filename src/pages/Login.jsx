@@ -5,7 +5,7 @@ import useAuth from "../hooks/useAuth";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 const Login = () => {
-  const { googleSignIn, login, setUser, user } = useAuth();
+  const { googleSignIn, login, setUser } = useAuth();
   const [error, setError] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [isDisable, setIsDisable] = useState(true);

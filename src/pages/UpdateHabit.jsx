@@ -1,29 +1,31 @@
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  CalendarIcon,
-  PencilIcon,
-  EyeIcon,
-  ClockIcon,
-} from "@heroicons/react/24/outline";
-import useAxiosSecure from "../hooks/useAxiosSecure";
-import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
-/* **
-"title": "Morning Meditation",
-    "description": "Start your day with 10 minutes of peaceful meditation to clear your mind and set your intentions.",
-    "category": "Morning",
-    "reminderTime": "06:30 AM",
-    "image": "https://i.ibb.co/morning-meditation.jpg",
-    "userEmail": "sarah.jones@email.com",
-    "userName": "Sarah Jones"
-*/
-const AddHabits = () => {
-  const {user} = useAuth();
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { useLocation } from "react-router";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
+const UpdateHabit = () => {
+  const { user } = useAuth();
+  const location = useLocation();
   const { instance } = useAxiosSecure();
-  const handleAddHabits = (e) => {
+  const [currentHabit, setCurrentHabit] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    instance
+      .get(`/current-product/${location.state}`)
+      .then((result) => {
+        const currentHabit = result.data;
+        setCurrentHabit(currentHabit);
+      })
+      .catch((errr) => {
+        console.log(errr);
+      });
+  }, [instance, user, location]);
+  // handle update habit
+  const handleUpdate = (e, id) => {
     e.preventDefault();
-    console.log("cliked");
-    const newHabit = {
+    const updatedHabit = {
       title: e.target.title.value,
       description: e.target.description.value,
       category: e.target.category.value,
@@ -33,43 +35,60 @@ const AddHabits = () => {
       user_email: e.target.email.value,
       user_name: e.target.name.value,
     };
-    console.log(newHabit)
-    instance
-      .post("/add-habit", newHabit)
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Update it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
       .then((result) => {
-        console.log(result.data);
-        if (result.data?.insertedId) {
-          Swal.fire({
-            title: "Drag me!",
-            icon: "success",
-            draggable: true,
-          });
-          e.target.reset();
+        if (result.isConfirmed) {
+          instance
+            .patch(`/update-my-habit/${id}`, updatedHabit)
+            .then((result) => {
+              if (result.data.modifiedCount) {
+                swalWithBootstrapButtons.fire({
+                  title: "Updated!",
+                  text: "Your habit has been updated.",
+                  icon: "success",
+                });
+                navigate('/my-habits')
+              } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+              ) {
+                swalWithBootstrapButtons.fire({
+                  title: "Cancelled",
+                  text: "Your currnt data is safe :)",
+                  icon: "error",
+                });
+              }
+            });
         }
       })
-      .catch((error) => {
-        console.log(error.message);
+      .catch((err) => {
+        console.log(err);
       });
   };
+  const {
+    _id,
+    title,
+    category,
+    reminderTime,
+  } = currentHabit || {};
   return (
-    <div className="bg-habit-bg min-h-screen text-habit-text mb-5  px-4">
-      <div class="relative w-full h-[500px]">
-        <img
-          src="https://geediting.com/wp-content/uploads/2024/03/People-who-are-lazy-and-unproductive-in-life-often-display-these-behaviors.png"
-          class="w-full h-full object-cover"
-        />
-
-        <div class="absolute inset-0 bg-black opacity-50"></div>
-
-        <div class="absolute inset-1 flex flex-col items-center gap-5 justify-center text-white">
-          <h1 class="text-5xl text-white font-bold ms-10 text-left ">
-            Small Steps Today, Big Wins Tomorrow.
-          </h1>
-          <button className="btn border-0 my-btn-2">Explore</button>
-        </div>
-      </div>
-
-      {/* Header */}
+    <div>
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -77,17 +96,15 @@ const AddHabits = () => {
         className="max-w-2xl mx-auto text-center mb-12"
       >
         <h1 className="text-4xl font-bold text-habit-primary my-8">
-          Add a New <span className="color-primary">Habit</span>
+          Update your <span className="color-primary">Habit</span>
         </h1>
         <p className="text-habit-text/70 text-lg opacity-70">
-          Build consistency and track your habits daily. Fill out the form below
-          to start.
+          Keep your information up to date to personalize your habit tracking
+          experience.
         </p>
       </motion.div>
-
-      {/* Form Section */}
       <motion.form
-        onSubmit={handleAddHabits}
+        onSubmit={(e) => handleUpdate(e, _id)}
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -101,9 +118,9 @@ const AddHabits = () => {
               Habit Title
             </label>
             <div className="relative">
-              <PencilIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <input
                 type="text"
+                defaultValue={title}
                 name="title"
                 placeholder="Enter Habit title"
                 className="input w-full outline-0"
@@ -117,9 +134,8 @@ const AddHabits = () => {
               Category
             </label>
             <div className="relative">
-              <CalendarIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <select
-                defaultValue="Select a category"
+                defaultValue={category}
                 name="category"
                 className="select outline-none w-full"
               >
@@ -139,9 +155,9 @@ const AddHabits = () => {
               Reminder Time
             </label>
             <div className="relative">
-              <ClockIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <input
                 type="time"
+                defaultValue={reminderTime}
                 name="time"
                 className="input w-full outline-none"
               />
@@ -153,7 +169,6 @@ const AddHabits = () => {
               User Name
             </label>
             <div className="relative">
-              <PencilIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <input
                 type="text"
                 name="name"
@@ -170,7 +185,6 @@ const AddHabits = () => {
               User Email
             </label>
             <div className="relative">
-              <PencilIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <input
                 type="text"
                 defaultValue={user?.email}
@@ -188,7 +202,6 @@ const AddHabits = () => {
               Image(Optional)
             </label>
             <div className="relative">
-              <PencilIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <input
                 type="text"
                 name="image"
@@ -215,15 +228,15 @@ const AddHabits = () => {
         <div className="flex justify-end items-center gap-8">
           <button
             type="button"
-            className=" w-[120px] my-btn-2 hover:bg-habit-accent text-white py-3 rounded-lg font-medium transition-all duration-300"
+            className=" w-[120px] my-btn-2 hover:bg-habit-accent cursor-pointer text-white py-3 rounded-lg font-medium transition-all duration-300"
           >
             Go back
           </button>
           <button
             type="submit"
-            className=" w-[120px]  my-btn hover:bg-habit-accent text-white py-3 rounded-lg font-medium transition-all duration-300"
+            className=" w-[120px] cursor-pointer  my-btn hover:bg-habit-accent text-white py-3 rounded-lg font-medium transition-all duration-300"
           >
-            Add Habit
+            Update
           </button>
         </div>
       </motion.form>
@@ -231,4 +244,4 @@ const AddHabits = () => {
   );
 };
 
-export default AddHabits;
+export default UpdateHabit;
