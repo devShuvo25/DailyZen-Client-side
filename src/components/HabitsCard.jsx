@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 const HabitsCard = ({ habit }) => {
   const { _id, title, category, image,  created_at} =
     habit;
     console.log(habit)
   return (
-    <div className=" p-3 flex flex-col justify-between shadow-sm">
+    <div
+    className=" p-3 flex flex-col justify-between shadow-sm">
       <div class="relative w-full h-[300px] ">
         <img src={image} class="w-full h-full object-cover" />
 
@@ -26,6 +29,7 @@ const HabitsCard = ({ habit }) => {
           View Details
         </Link>
       </div>
+      
     </div>
   );
 };

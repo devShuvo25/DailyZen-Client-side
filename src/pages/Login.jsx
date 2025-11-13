@@ -59,7 +59,7 @@ const Login = () => {
     googleSignIn().then((result) => {
       if(result?.user){
         setUser(result?.user);
-        navigate(location.state);
+        navigate(location.state || '/');
 
       }
     });

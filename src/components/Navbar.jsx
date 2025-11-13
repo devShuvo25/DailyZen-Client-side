@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 import { GrWheelchairActive } from "react-icons/gr";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -19,7 +21,7 @@ const Navbar = () => {
           icon: "success",
           draggable: true,
         });
-        navigate("/login");
+        navigate("/");
       })
       .catch((err) => console.log(err.message));
   };
@@ -69,7 +71,10 @@ const Navbar = () => {
             <button onClick={handleLogout} className="btn my-btn">
               Logout
             </button>
-            <button className="rounded-full border-2 border-[#3BB143] p-[2px]">
+            <button
+             data-tooltip-id="my-tooltip"
+             data-tooltip-content= {`${user?.displayName}`}
+            className="rounded-full border-2 border-[#3BB143] p-[2px] cursor-pointer">
               <img
                 className="h-[30px] w-[30px] rounded-full"
                 src={
@@ -79,6 +84,7 @@ const Navbar = () => {
                 alt="User"
               />
             </button>
+            <Tooltip id="my-tooltip" place="top" effect="solid" />
           </div>
         ) : (
           <div className="flex justify-between gap-5">

@@ -15,9 +15,21 @@ const MyHabits = () => {
   const { instance } = useAxiosSecure();
   const { user } = useAuth();
   const [myhabits, setMyHabits] = useState([]);
+  const [habits,setHabits] = useState([]);
   const [isLoading,setIsLoading] = useState(true);
+  const today = new Date().toISOString().split("T")[0];
 
   const location = useLocation();
+      useEffect(() => {
+        setIsLoading(true)
+          instance.get('/all-habits')
+          .then(reslut => {
+              setHabits(reslut.data)
+          })
+          .catch(err => {
+              console.log(err)
+          })
+      },[instance])
   useEffect(() => {
     instance
       .get(`/my-habits?email=${user?.email}`)
@@ -30,6 +42,9 @@ const MyHabits = () => {
         console.log(err);
       });
   }, [instance, user]);
+
+  const totalCompleted = myhabits.filter(habit => habit.completion_history.includes(new Date().toISOString().split('T')[0]));
+
   // handle delete
   const handleDelete = (id) => {
 
@@ -183,18 +198,18 @@ const MyHabits = () => {
           </div>
           <div className="  bg-green-100  flex flex-col items-center justify-center gap-2 rounded-lg">
             <CiCalendarDate size={35} className="color-acent" />
-            <h3 className="text-xl font-semibold">Current Streak</h3>
-            <h1 className="text-6xl font-bold color-primary">12</h1>
+            <h3 className="text-xl font-semibold">Today's Date</h3>
+            <h1 className="text-6xl font-bold color-primary">{today}</h1>
           </div>
           <div className="  bg-green-100  flex flex-col items-center justify-center gap-2 rounded-lg">
             <GiCheckeredFlag size={35} className="color-acent" />
-            <h3 className="text-xl font-semibold">Completed</h3>
-            <h1 className="text-6xl font-bold color-primary">4</h1>
+            <h3 className="text-xl font-semibold">Completed Today</h3>
+            <h1 className="text-6xl font-bold color-primary">{totalCompleted.length}</h1>
           </div>
           <div className="  bg-green-100 flex flex-col items-center justify-center gap-2 rounded-lg">
             <GrWheelchairActive size={35} className="color-acent" />
             <h3 className="text-xl font-semibold">Active Habits</h3>
-            <h1 className="text-6xl font-bold color-primary">5</h1>
+            <h1 className="text-6xl font-bold color-primary">{habits.length}</h1>
           </div>
         </div>
         {/* table of my  habits */}
