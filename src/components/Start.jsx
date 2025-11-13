@@ -3,25 +3,25 @@ import { Link } from "react-router";
 
 const StartJourney = () => {
   return (
-    <section className="relative  py-15 text-center">
+    <section className="relative  lg:py-15 text-center">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="max-w-2xl mx-auto"
+        className="max-w-2xl mx-auto py-5"
       >
-        <h2 className="text-4xl font-bold text-habit-text mb-4 leading-13">
+        <h2 className="text-2xl lg:text-5xl font-bold text-habit-text mb-4 lg:leading-13">
           Build Consistency. Achieve Growth. <span className="color-primary ">Transform Your Life.</span>
         </h2>
-        <p className="text-habit-text/70 mb-8">
+        <p className="text-habit-text/70 mb-4 lg:mb-8">
           HabitFlow helps you track daily actions, stay accountable, and reach your goals — one habit at a time.
         </p>
         <Link to={'/add-habit'} className="btn my-btn-2 text-white px-8 py-3 rounded-full font-medium hover:bg-habit-accent transition-all duration-300">
           Add a new Habit now
         </Link>
       </motion.div>
-       <section className="bg-habit-bg py-16">
+       <section className="bg-habit-bg py-6 lg:py-16">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}

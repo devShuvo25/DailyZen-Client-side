@@ -5,16 +5,42 @@ import useAxiosSecure from '../hooks/useAxiosSecure';
 const PublicHabits = () => {
     const {instance} = useAxiosSecure();
     const [habits,setHabits] = useState([]);
+    const [filteredHabits,setFilteredHabits] =useState([]);
     useEffect(() => {
         instance.get('/all-habits')
         .then(reslut => {
             setHabits(reslut.data)
+            setFilteredHabits(reslut.data)
             
         })
         .catch(err => {
             console.log(err)
         })
     },[instance])
+    // handle search
+    const handleSearch = (value) => {
+      const searchValue = value.trim().toLowerCase();
+      if(!searchValue){
+        setFilteredHabits(habits);
+      }
+      if(searchValue){
+        const filterd =  habits.filter(habit => habit?.title?.trim().toLowerCase().includes(searchValue))
+        setFilteredHabits(filterd)
+      }
+      // handleSorting
+
+    }
+          const handleSorting = (value) => {
+        console.log(value)
+       if(value === "All"){
+        return setFilteredHabits(habits);
+       }
+       if(value){
+        const sorted = habits.filter(habit => habit.category === value)
+        setFilteredHabits(sorted)
+       }
+
+      }
     return (
         <div>
             <div className='grid grid-cols-2 gap-2'>
@@ -77,9 +103,36 @@ const PublicHabits = () => {
             check your streaks, and keep growing — one day at a time.
           </p>
         </div>
+        <div className='flex justify-between items-center p-5'>
+          <div><h1 className='text-2xl font-bold'>Available Habits({filteredHabits.length})</h1></div>
+          <div><label className="input outline-0 rounded-4xl">
+  <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g
+      strokeLinejoin="round"
+      strokeLinecap="round"
+      strokeWidth="2.5"
+      fill="none"
+      stroke="currentColor"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.3-4.3"></path>
+    </g>
+  </svg>
+  <input onChange={(e) =>handleSearch(e.target.value)} type="search " name='search' className='w-60 focus:outline-0' required placeholder="Search" />
+</label></div>
+<div><select onChange={(e) => handleSorting (e.target.value)} defaultValue="Pick a color" className="select outline-0">
+  <option disabled={true}>Sort by Category</option>
+   <option value="All">All</option>
+  <option value="Morning">Morning</option>
+  <option value="Study">Study</option>
+  <option value="Evening">Evening</option>
+  <option value="Fitness">Fitness</option>
+  <option value="Work">Work</option>
+</select></div>
+        </div>
             <div className='grid grid-cols-4 gap-5'>
                 {
-                    habits.map(habit => <HabitsCard habit={habit}/>)
+                    filteredHabits.map(habit => <HabitsCard habit={habit}/>)
                 }
             </div>
         </div>

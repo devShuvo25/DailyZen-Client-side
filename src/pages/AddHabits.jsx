@@ -55,7 +55,7 @@ const AddHabits = () => {
   };
   return (
     <div className="bg-habit-bg min-h-screen text-habit-text mb-5  px-4">
-      <div class="relative w-full h-[500px]">
+      <div class="relative w-full lg:h-[500px]">
         <img
           src="https://geediting.com/wp-content/uploads/2024/03/People-who-are-lazy-and-unproductive-in-life-often-display-these-behaviors.png"
           class="w-full h-full object-cover"
@@ -64,7 +64,7 @@ const AddHabits = () => {
         <div class="absolute inset-0 bg-black opacity-50"></div>
 
         <div class="absolute inset-1 flex flex-col items-center gap-5 justify-center text-white">
-          <h1 class="text-5xl text-white font-bold ms-10 text-left ">
+          <h1 class="text-2xl lg:text-5xl text-white font-bold ms-10 text-left ">
             Small Steps Today, Big Wins Tomorrow.
           </h1>
           <button className="btn border-0 my-btn-2">Explore</button>
@@ -78,7 +78,7 @@ const AddHabits = () => {
         transition={{ duration: 0.8 }}
         className="max-w-2xl mx-auto text-center mb-12"
       >
-        <h1 className="text-4xl font-bold text-habit-primary my-8">
+        <h1 className="text-2xl lg:text-5xl font-bold text-habit-primary my-4 lg:my-8">
           Add a New <span className="color-primary">Habit</span>
         </h1>
         <p className="text-habit-text/70 text-lg opacity-70">
@@ -88,15 +88,17 @@ const AddHabits = () => {
       </motion.div>
 
       {/* Form Section */}
+      
+        
       <motion.form
         onSubmit={handleAddHabits}
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="max-w-full mx-auto bg-white p-8 rounded-xl shadow-lg space-y-6"
+        className="max-w-full mx-auto bg-white p-4 lg:p-8 rounded-xl shadow-lg space-y-6"
       >
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {/* Habit Name */}
           <div>
             <label className="block text-habit-text font-medium mb-1">
@@ -229,6 +231,7 @@ const AddHabits = () => {
           </button>
         </div>
       </motion.form>
+      
     </div>
   );
 };

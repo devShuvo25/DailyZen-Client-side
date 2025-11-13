@@ -11,6 +11,7 @@ const Details = () => {
   console.log(location);
   const { instance } = useAxiosSecure();
   const [currentHabit, setCurrentHabit] = useState(null);
+  const [completed,setCompleted] = useState();
   useEffect(() => {
     instance
       .get(`/current-product/${location.state}`)
@@ -47,6 +48,7 @@ const Details = () => {
             .patch(`/habits-complete/${id}`)
             .then((result) => {
               if (result) {
+                currentHabit.current_streak = result.data.strak;
                 swalWithBootstrapButtons.fire({
                   title: "Congratulations",
                   text: "Your habit's task completed.",

@@ -53,15 +53,16 @@ const routes = createBrowserRouter([
                     <UpdateHabit/>
                 </PrivetRoute>
             },
-            {
-                path:'*',
-                Component:ErrorPage
-            },
+            
             {
                 path:"/habit-details",
                 Component:Details
             }
         ]
-    }
+    },
+    {
+                path:'*',
+                Component:ErrorPage
+            },
 ])
 export default routes;

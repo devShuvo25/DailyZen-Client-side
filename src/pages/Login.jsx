@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
@@ -10,6 +10,8 @@ const Login = () => {
   const [isActive, setIsActive] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location)
   const regex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
   // client side validation
   const handlePassword = (e) => {
@@ -55,8 +57,11 @@ const Login = () => {
   };
   const handleGoogleSingin = () => {
     googleSignIn().then((result) => {
-      console.log("Succesfully login with :", result?.user.email);
-      setUser(result?.user);
+      if(result?.user){
+        setUser(result?.user);
+        navigate(location.state);
+
+      }
     });
   };
   return (

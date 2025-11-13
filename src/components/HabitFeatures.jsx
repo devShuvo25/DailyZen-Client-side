@@ -30,7 +30,7 @@ const HabitsFeatures = ({children, direction = "left"}) => {
     
     return (
         <div className='p-5'>
-            <h1 className='text-4xl font-semibold  text-center'>Latest <span className='color-primary'>Features</span></h1>
+            <h1 className='text-2xl lg:text-5xl font-semibold  text-center'>Latest <span className='color-primary'>Features</span></h1>
             {
                 isLoading? <Spinners/> :
             
@@ -39,7 +39,7 @@ const HabitsFeatures = ({children, direction = "left"}) => {
              whileInView={{ y: 0, opacity: 1 }}
              viewport={{ once: true, amount: 0.2 }}
              transition={{ duration: 0.8 }}
-                 className='my-10 grid grid-cols-2 lg:grid-cols-3 gap-8'>
+                 className='my-5 lg:my-10 grid grid-cols-2 lg:grid-cols-3 gap-8'>
                 {
                     
                     habits.map(p => <CardFrFeatures p={p}/>)
@@ -49,16 +49,16 @@ const HabitsFeatures = ({children, direction = "left"}) => {
                 
                 </motion.div>
                 }
-                <h1 className='text-4xl font-semibold text-center mb-10'>Why Build <span className='color-primary'>Habits?</span></h1>
+                <h1 className='text-2xl lg:text-5xl font-semibold text-center mb-10'>Why Build <span className='color-primary'>Habits?</span></h1>
 
                 <motion.div
                 initial={{ x: direction === "to" ? 100 : -100, opacity: 0 }}
              whileInView={{ x: 0, opacity: 1 }}
              viewport={{ once: true, amount: 0.2 }}
              transition={{ duration: 0.8 }}
-                className='flex justify-between items-start gap-5'>
+                className='flex flex-col lg:flex-row justify-between items-start gap-5'>
                     <motion.div
-                    className='w-[50%] p-5 flex flex-col gap-2 bg-white shadow-sm'
+                    className='w-full  lg:w-[50%] p-5 flex flex-col gap-2 bg-white shadow-sm'
                     >
                         <img
                         className='w-full h-[330px]'
@@ -72,12 +72,12 @@ const HabitsFeatures = ({children, direction = "left"}) => {
                     whileInView={{ x: 0, opacity: 1 }}
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.8 }}
-                    className='w-[50%]'
+                    className='w-full lg:w-[50%]'
                     >
                         
                         {
                             dataIm.map(eachData => {
-                                return <div className='p-4 bg-white shadow-sm my-3'> 
+                                return <div className='w-fu p-4 bg-white shadow-sm my-3'> 
                                     <h2 className='text-lg font-semibold badge badge-warning p-4 mb-2 '>{eachData.title}</h2>
                                     <ul className='opacity-70' >
                                         <li className='text-sm'>{eachData.description}</li>
