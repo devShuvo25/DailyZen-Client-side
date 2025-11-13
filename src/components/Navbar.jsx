@@ -37,11 +37,23 @@ const Navbar = () => {
           <FaBars />
         </button>
 
-        <a className="text-2xl font-bold flex items-center gap-1">
+        <a className="hidden lg:flex text-2xl font-bold  items-center gap-1">
+          <GrWheelchairActive color="#3BB143" />
+          <span>Daily</span>
+          <span className="hidden lg:block color-primary">Zone</span>
+        </a>
+        { user?
+         <a className="lg:hidden text-2xl font-bold flex items-center gap-1">
           <GrWheelchairActive color="#3BB143" />
           <span>Daily</span>
           <span className="color-primary">Zone</span>
+        </a> :
+        <a className="lg:hidden text-2xl font-bold flex items-center gap-1">
+          <GrWheelchairActive color="#3BB143" />
+          <span>D</span>
+          <span className="color-primary">Z</span>
         </a>
+       }
       </div>
 
       {/* CENTER: Desktop NavLinks */}
