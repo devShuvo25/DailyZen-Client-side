@@ -191,7 +191,7 @@ const MyHabits = () => {
             <IoSunnyOutline size={35} className="color-acent" />
             <h3 className="text-xl font-semibold">Habits Added</h3>
             <div className="rounded-[50%]  h-[70px] w-[70px] flex justify-center items-center">
-              <h1 className="text-6xl font-bold color-primary">
+              <h1 className="text-3xl lg:text-6xl font-bold color-primary">
                 {myhabits.length}
               </h1>
             </div>
@@ -199,17 +199,17 @@ const MyHabits = () => {
           <div className="  bg-green-100  flex flex-col items-center justify-center gap-2 rounded-lg">
             <CiCalendarDate size={35} className="color-acent" />
             <h3 className="text-xl font-semibold">Today's Date</h3>
-            <h1 className="text-6xl font-bold color-primary">{today}</h1>
+            <h1 className="text-3xl lg:text-6xl font-bold color-primary">{today}</h1>
           </div>
           <div className="  bg-green-100  flex flex-col items-center justify-center gap-2 rounded-lg">
             <GiCheckeredFlag size={35} className="color-acent" />
             <h3 className="text-xl font-semibold">Completed Today</h3>
-            <h1 className="text-6xl font-bold color-primary">{totalCompleted.length}</h1>
+            <h1 className="text-3xl lg:text-6xl font-bold color-primary">{totalCompleted.length}</h1>
           </div>
           <div className="  bg-green-100 flex flex-col items-center justify-center gap-2 rounded-lg">
             <GrWheelchairActive size={35} className="color-acent" />
             <h3 className="text-xl font-semibold">Active Habits</h3>
-            <h1 className="text-6xl font-bold color-primary">{habits.length}</h1>
+            <h1 className="text-3xl lg:text-6xl font-bold color-primary">{habits.length}</h1>
           </div>
         </div>
         {/* table of my  habits */}
