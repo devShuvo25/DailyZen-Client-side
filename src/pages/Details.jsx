@@ -4,6 +4,7 @@ import ProgressBar from "../components/ProgressBar";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 
 const Details = () => {
   const { user } = useAuth();
@@ -11,7 +12,27 @@ const Details = () => {
   console.log(location);
   const { instance } = useAxiosSecure();
   const [currentHabit, setCurrentHabit] = useState(null);
-  const [completed,setCompleted] = useState();
+  const [progressDayCount,setProgressDayCount] = useState();
+  // calculate data for ......... progress bar
+  const getLast30DaysCompletion = (completedDates) => {
+  const today = new Date();
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(today.getDate() - 30);
+
+  // filter dates that are within the last 30 days
+  const completedLast30Days = completedDates.filter(dateStr => {
+    const date = new Date(dateStr);
+    return date >= thirtyDaysAgo && date <= today;
+  });
+
+  return completedLast30Days.length;
+};
+useEffect(() => {
+  if(currentHabit && currentHabit.completion_history){
+    const count = getLast30DaysCompletion(currentHabit.completion_history)
+    setProgressDayCount(count)
+  }
+},[currentHabit])
   useEffect(() => {
     instance
       .get(`/current-product/${location.state}`)
@@ -47,8 +68,12 @@ const Details = () => {
           instance
             .patch(`/habits-complete/${id}`)
             .then((result) => {
+              console.log(result)
               if (result) {
-                currentHabit.current_streak = result.data.strak;
+                setCurrentHabit((prev) => ({
+                  ...prev, current_streak : result?.data?.streak,
+                   completion_history: result.data.completion_history ,
+                }))
                 swalWithBootstrapButtons.fire({
                   title: "Congratulations",
                   text: "Your habit's task completed.",
@@ -78,15 +103,18 @@ const Details = () => {
         }
       });
   };
+
+  const parcentage = (progressDayCount / 30) * 100;
+
+  
   return (
-    <div>
       <div>
         <div>
-          <div className="flex flex-col lg:flex-row h-[400px] gap-10 lg:p-8 ">
+          <div className="flex flex-col lg:flex-row lg:h-[400px] h-[700px] gap-10 lg:p-8 ">
             <div className="flex justify-center lg:w-[35%]">
               <img
-                className="w-full rounded-2xl"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT00c4CX6Qna0gefZZsonCZ9G5u2cNzBp12bw&s"
+                className="w-full ] rounded-2xl"
+                src={currentHabit?.image}
                 alt=""
               />
             </div>
@@ -101,10 +129,44 @@ const Details = () => {
                     "
                 />
               </div>
+                <div className="lg:hidden flex items-center justify-center my-5 h-[180px]">
+                                <div className="h-[130px] w-[130px] ">
+                    
+                    <CircularProgressbar
+                      value={parcentage}
+                      text={parcentage}
+                      styles={buildStyles({
+                        rotation: 0.25,
+                        strokeLinecap: "butt",
+                        textSize: "16px",
+                        pathTransitionDuration: 0.5,
+                        pathColor: `rgba(59, 177, 67, ${{parcentage}/ 100})`,
+                        textColor: "#f88",
+                        trailColor: "#d6d6d6",
+                        backgroundColor: "#3BB143",
+                        })}/>
+                  <h3 className="text-xl my-3">Your Progress</h3>
+                  </div>
+                </div>
               <div>
-                <div className="flex justify-centr items-center gap-15">
-                  <div className="h-[100px] w-[100px] text-center">
-                    <ProgressBar />
+                <div className="grid grid-cols-2 lg:grid-cols-5 gap-5 ">
+                  <div className="h-[100px] w-[100px] text-center hidden lg:block">
+                    <div className="h-[100px] w-[100px] ">
+                    
+                    <CircularProgressbar
+                      value={parcentage}
+                      text={parcentage.toFixed(2)}
+                      styles={buildStyles({
+                        rotation: 0.25,
+                        strokeLinecap: "butt",
+                        textSize: "16px",
+                        pathTransitionDuration: 0.5,
+                        pathColor: `rgba(59, 177, 67, ${{parcentage}/ 100})`,
+                        textColor: "#f88",
+                        trailColor: "#d6d6d6",
+                        backgroundColor: "#3BB143",
+                        })}/>
+                  </div>
                   </div>
 
                   <div className="flex flex-col gap-1">
@@ -135,10 +197,10 @@ const Details = () => {
                 className="my-2 text-gray-300 px-5
                     "
               />
-              <div>
+              <div className="flex justify-start lg:justify-start">
                 <button
                   onClick={() => handleComplete(currentHabit?._id)}
-                  className="btn my-btn"
+                  className="btn my-btn "
                 >
                   Mark as Complete
                 </button>
@@ -148,28 +210,11 @@ const Details = () => {
           <div className="mt-65 -me-2 lg:me-0 lg:mt-0"></div>
           <div className="p-5">
             <h2 className="text-lg font-bold mb-4">
-              {currentHabit?.description}
+              Description :
             </h2>
             <text className="text-sm opacity-80 ">
               <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Earum
-                aut cupiditate accusantium nobis molestias accusamus temporibus
-                aliquid repudiandae consequuntur, vero sapiente necessitatibus
-                commodi illum dolor similique ipsum vitae eligendi voluptatibus
-                saepe expedita iure nemo sed reprehenderit. Tempore fuga,
-                veritatis mollitia illo adipisci dolores. Corporis dolores
-                quidem exercitationem a rerum commodi temporibus cum, quam
-                assumenda nihil quisquam ipsam, dolorum quod possimus et
-                voluptatum repellendus! Harum nisi recusandae labore sit fugit
-                quod quis, aperiam incidunt nihil pariatur, accusamus soluta
-                ducimus alias. Quam at accusantium sint inventore. Aut commodi
-                reprehenderit obcaecati ipsum numquam libero adipisci, aperiam
-                iure laudantium est? Excepturi laborum consequuntur quia rerum,
-                tempora odit, tenetur illo dolorum ipsam iusto facilis id!
-                Magnam ratione quasi rem ducimus, voluptas ipsum nihil natus
-                minus ex sunt, quia laboriosam eius possimus nostrum vero
-                laborum sit velit quibusdam nemo harum voluptatibus eos non hic
-                beatae! Nam.
+               {currentHabit?.description}
               </p>
             </text>
           </div>
@@ -180,7 +225,7 @@ const Details = () => {
           </Link>
         </div>
       </div>
-    </div>
+
   );
 };
 

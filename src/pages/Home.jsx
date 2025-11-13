@@ -21,6 +21,7 @@ const Home = () => {
     
     return (
         <div>
+            <title>DailyZone -Home</title>
             <Banner/>
             <HabitsFeatures/>
             <BadHabits/>

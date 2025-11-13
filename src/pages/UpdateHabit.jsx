@@ -30,7 +30,6 @@ const UpdateHabit = () => {
       description: e.target.description.value,
       category: e.target.category.value,
       reminderTime: e.target.time.value,
-      created_at: new Date().toLocaleString(),
       image: e.target.image.value,
       user_email: e.target.email.value,
       user_name: e.target.name.value,

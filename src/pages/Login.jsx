@@ -66,6 +66,7 @@ const Login = () => {
   };
   return (
     <div className="">
+      <title>Log in</title>
       <div className="hero bg-base-200 p-5 ">
         <div className="  card bg-white shadow-sm flex flex-row  w-full max-w-md shrink-0 shadow-2xl p-3">
           <div className="card-body w-full ">

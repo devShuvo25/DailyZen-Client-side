@@ -8,6 +8,8 @@ import {
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
+import { FaArrowLeft } from "react-icons/fa";
+import { Link } from "react-router";
 /* **
 "title": "Morning Meditation",
     "description": "Start your day with 10 minutes of peaceful meditation to clear your mind and set your intentions.",
@@ -55,6 +57,7 @@ const AddHabits = () => {
   };
   return (
     <div className="bg-habit-bg min-h-screen text-habit-text mb-5  px-4">
+      <title>Add Habit</title>
       <div class="relative w-full lg:h-[500px]">
         <img
           src="https://geediting.com/wp-content/uploads/2024/03/People-who-are-lazy-and-unproductive-in-life-often-display-these-behaviors.png"
@@ -107,6 +110,7 @@ const AddHabits = () => {
             <div className="relative">
               <PencilIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <input
+              required
                 type="text"
                 name="title"
                 placeholder="Enter Habit title"
@@ -123,6 +127,7 @@ const AddHabits = () => {
             <div className="relative">
               <CalendarIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <select
+              
                 defaultValue="Select a category"
                 name="category"
                 className="select outline-none w-full"
@@ -145,6 +150,7 @@ const AddHabits = () => {
             <div className="relative">
               <ClockIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <input
+              required
                 type="time"
                 name="time"
                 className="input w-full outline-none"
@@ -194,6 +200,7 @@ const AddHabits = () => {
             <div className="relative">
               <PencilIcon className="w-5 h-5 absolute top-2.5 left-3 text-habit-primary" />
               <input
+              required
                 type="text"
                 name="image"
                 placeholder="PhotoURl -(Optional)"
@@ -208,6 +215,7 @@ const AddHabits = () => {
             Short Description
           </label>
           <textarea
+          required
             placeholder="Why do you want to build this habit?"
             name="description"
             className="input w-full h-20 resize-none outline-none focus:outline-0 "
@@ -217,15 +225,15 @@ const AddHabits = () => {
 
         {/* Submit Button */}
         <div className="flex justify-end items-center gap-8">
-          <button
+          <Link to={'/'}
             type="button"
-            className=" w-[120px] my-btn-2 hover:bg-habit-accent text-white py-3 rounded-lg font-medium transition-all duration-300"
+            className="btn my-btn-2 text-white"
           >
-            Go back
-          </button>
+           <span><FaArrowLeft /></span> Go back
+          </Link>
           <button
             type="submit"
-            className=" w-[120px]  my-btn hover:bg-habit-accent text-white py-3 rounded-lg font-medium transition-all duration-300"
+           className="btn my-btn"
           >
             Add Habit
           </button>

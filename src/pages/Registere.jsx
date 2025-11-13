@@ -63,6 +63,7 @@ const Registere = () => {
   };
   return (
     <div className="">
+      <title>Register</title>
       <div className="hero bg-base-200 p-5 ">
         <div className="  card bg-white shadow-sm flex flex-row  w-full max-w-md shrink-0  p-3">
           <div className="card-body w-full ">

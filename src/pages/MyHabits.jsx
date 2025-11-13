@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CiCalendarDate } from "react-icons/ci";
-import { FaFlagCheckered } from "react-icons/fa";
+import { FaArrowLeft, FaFlagCheckered } from "react-icons/fa";
 import { GiCheckeredFlag } from "react-icons/gi";
 import { GrWheelchairActive } from "react-icons/gr";
 import { IoSunnyOutline } from "react-icons/io5";
@@ -13,8 +13,10 @@ import Spinners from "../components/Spinners";
 
 const MyHabits = () => {
   const { instance } = useAxiosSecure();
-  const { user,isLoading,setIsLoading } = useAuth();
+  const { user } = useAuth();
   const [myhabits, setMyHabits] = useState([]);
+  const [isLoading,setIsLoading] = useState(true);
+
   const location = useLocation();
   useEffect(() => {
     instance
@@ -22,6 +24,7 @@ const MyHabits = () => {
       .then((result) => {
         console.log(result.data);
         setMyHabits(result?.data);
+        setIsLoading(false)
       })
       .catch((err) => {
         console.log(err);
@@ -134,7 +137,9 @@ const MyHabits = () => {
     };
 
   return (
+    
     <div>
+      <title>My Habits</title>
       <div class="relative w-full lg:h-[500px]">
         <img
           src="https://www.themodestman.com/wp-content/uploads/2025/07/image6-44.jpg"
@@ -194,8 +199,10 @@ const MyHabits = () => {
         </div>
         {/* table of my  habits */}
         {
+          
+          
           isLoading? <Spinners/> :
-          myhabits.length !== 0?
+          myhabits.length !== 0? 
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
@@ -258,6 +265,9 @@ const MyHabits = () => {
         
         }
       </div>
+      <div className='flex justify-center items-center py-5'>
+                    <Link to={'/'} className='btn my-btn'><span><FaArrowLeft /></span> Back to Home</Link>
+                  </div>
     </div>
   );
 };

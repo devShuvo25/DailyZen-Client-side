@@ -2,24 +2,28 @@
   {
     "id": 1,
     "title": "Consistency Builds Results",
+    "icon" : "<MdOutlineSelfImprovement />",
     "description": "Small actions every day lead to big achievements over time.",
     "exampleHabit": "Exercising 10 minutes daily"
   },
   {
     "id": 2,
     "title": "Improves Productivity",
+    "icon" : "<BsStopwatch />",
     "description": "Good habits structure your day and reduce decision fatigue.",
     "exampleHabit": "Planning your day each morning"
   },
   {
     "id": 3,
     "title": "Boosts Mental Health",
+    "icon" : "<RiMentalHealthLine />",
     "description": "Mindful habits reduce stress and improve mood.",
     "exampleHabit": "Journaling or meditation"
   },
   {
     "id": 4,
     "title": "Supports Long-Term Goals",
+    "icon" : "<GoGoal />",
     "description": "Habits make reaching big goals manageable by breaking them into daily actions.",
     "exampleHabit": "Learning a language 15 minutes a day"
   }

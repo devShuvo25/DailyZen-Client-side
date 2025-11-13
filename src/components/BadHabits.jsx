@@ -11,13 +11,11 @@ const BadHabits = () => {
 
   <div class="absolute inset-0 bg-black opacity-50"></div>
 
-  <div class="absolute inset-1 flex flex-col items-center gap-5 justify-start pt-10 text-white">
+  <div class="absolute inset-1 flex flex-col  items-center gap-5 justify-between py-5 pt-10 text-white">
     <h1 class="text-2xl  lg:text-5xl text-white font-bold ms-10 text-left ">People with bad habits</h1>
    
     <p className='text-center mx-20'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic debitis voluptas vitae vel nesciunt aliquam aut earum pariatur nisi laudantium aperiam cumque alias, sint itaque harum. Consequatur vero aperiam, sapiente pariatur accusantium ipsam quibusdam voluptatem id aliquid, consectetur quasi quos!</p>
-  </div>
-          
-          <div className='absolute hidden lg:block  bottom-8 text-white left-5  flex flex-col lg:flex-row items-center justify-between gap-2  '>
+    <div className=' hidden lg:flex  bottom-8 text-white left-5  flex  items-center justify-between gap-2  '>
 
             <div className="flex flex-col justify-center items-center
              lg:w-[400px] border-[1px] border-gray-400 rounded-2xl
@@ -61,6 +59,9 @@ const BadHabits = () => {
               </p>
             </div>
           </div>
+  </div>
+          
+          
           
 </div>
 
