@@ -12,6 +12,7 @@ import {
   ChatBubbleBottomCenterTextIcon,
   ArrowLeftIcon
 } from "@heroicons/react/24/outline";
+import { FaArrowLeft } from "react-icons/fa";
 
 const UpdateHabit = () => {
   const { user } = useAuth();
