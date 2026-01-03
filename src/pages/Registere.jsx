@@ -1,179 +1,158 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { motion } from "framer-motion";
+import { FaGoogle, FaUser, FaEnvelope, FaLock, FaImage, FaArrowRight } from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
 
 const Registere = () => {
-  const { createUser, googleSignIn, setUser, user } = useAuth();
   const navigate = useNavigate();
+  const { createAccount, googleSignIn, setUser, updateUserProfile } = useAuth();
   const [error, setError] = useState("");
-  const [isActive, setIsActive] = useState(false);
-  const [isDisable, setIsDisable] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
   const regex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
 
-  const handlePassword = (e) => {
-    const password = e.target.value;
-    if (regex.test(password)) {
-      setError("");
-      setIsDisable(false);
-    } else if (password === "") {
-      setError("");
-    } else {
-      setError(
-        "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
-      );
-      setIsDisable(true);
-    }
-  };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, photoURL, password } = {
-      name: e.target.name.value,
-      email: e.target.email.value,
-      photoURL: e.target.photoURL.value,
-      password: e.target.password.value,
-    };
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const photoURL = e.target.photoURL.value;
+    const password = e.target.password.value;
 
-    if (regex.test(password)) {
-      createUser(email, password)
-        .then((result) => {
-          console.log(result);
-          if (result) {
-            e.target.reset();
-            Swal.fire({
-              title: "Succesfully Created Account",
-              icon: "success",
-              draggable: true,
-            });
-            navigate("/login");
-          }
-        })
-        .catch((err) => {
-          setError(err.message);
+    if (!regex.test(password)) {
+      setError("Password needs 6+ chars, uppercase & lowercase.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    
+    try {
+      const result = await createAccount(email, password);
+      if (result?.user) {
+        await updateUserProfile(name, photoURL);
+        Swal.fire({
+          title: "Account Created!",
+          text: "Welcome to the elite habit building community.",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+          background: '#ffffff',
         });
+        setUser({ ...result.user, displayName: name, photoURL });
+        navigate("/");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
-  const handleGoogleSingin = () => {
-    googleSignIn().then((result) => {
-      console.log("Succesfully login with :", result?.user.email);
-      setUser(result?.user);
-      navigate("/login");
-    });
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await googleSignIn();
+      if (result?.user) {
+        setUser(result.user);
+        navigate("/");
+      }
+    } catch (error) {
+       console.error(error);
+    }
   };
+
   return (
-    <div className="">
-      <title>Register</title>
-      <div className="hero bg-base-200 p-5 ">
-        <div className="  card bg-white shadow-sm flex flex-row  w-full max-w-md shrink-0  p-3">
-          <div className="card-body w-full ">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold color-primary">Register</h1>
-            </div>
-            <form onSubmit={handleSubmit}>
-              <fieldset className="fieldset w-full ">
-                <label className="label">Name</label>
-                <input
-                  required
-                  type="text"
-                  name="name"
-                  className="w-full input border-1px border-[#3BB143] outline-0 rounded-full"
-                  placeholder="Name"
-                />
-                <label className="label">Email</label>
-                <input
-                  type="email"
-                  required
-                  name="email"
-                  className="w-full input border-1px border-[#3BB143] outline-0 rounded-full"
-                  placeholder="Email"
-                />
-                <label className="label">Photo URL</label>
-                <input
-                  type="text"
-                  required
-                  name="photoURL"
-                  className="w-full input border-1px border-[#3BB143] outline-0 rounded-full"
-                  placeholder="Photo URL"
-                />
-                <label className="label ">Password</label>
-                <div className="relative overflow-visible">
-                  <input
-                    onChange={handlePassword}
-                    type={isActive ? "text" : "password"}
-                    required
-                    name="password"
-                    className=" w-full p-[11px] outline-[1px] outline-[#3BB143] border-1px border-[#3BB143] rounded-full "
-                    placeholder="Password"
-                  />
-                  <div
-                    onClick={() => setIsActive(!isActive)}
-                    className="absolute overflow-visible top-[13px] right-5  cursor-pointer"
-                  >
-                    {!isActive ? (
-                      <IoEyeOffOutline size={15} />
-                    ) : (
-                      <IoEyeOutline size={15} />
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <a className="link link-hover">Forgot password?</a>
-                </div>
-                <div>
-                  <p className="text-red-600">{error}</p>
-                </div>
-                <button
-                  disabled={isDisable}
-                  className="btn my-btn text-white mt-4 rounded-full disabled:opacity-50"
-                >
-                  Login
-                </button>
-                <button
-                  type="button"
-                  onClick={handleGoogleSingin}
-                  className="btn bg-white rounded-full text-black border-[#e5e5e5]"
-                >
-                  <svg
-                    aria-label="Google logo"
-                    width="16"
-                    height="16"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                  >
-                    <g>
-                      <path d="m0 0H512V512H0" fill="#fff"></path>
-                      <path
-                        fill="#34a853"
-                        d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-                      ></path>
-                      <path
-                        fill="#4285f4"
-                        d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-                      ></path>
-                      <path
-                        fill="#fbbc02"
-                        d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-                      ></path>
-                      <path
-                        fill="#ea4335"
-                        d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-                      ></path>
-                    </g>
-                  </svg>
-                  Login with Google
-                </button>
-                <p>
-                  Alreasy have an account?{" "}
-                  <Link to={"/login"} className="color-primary  underline">
-                    Login
-                  </Link>
-                </p>
-              </fieldset>
-            </form>
+    <div className="min-h-screen grid lg:grid-cols-2 bg-[#F8FAFC]">
+      <title>DailyZone - Create Account</title>
+      
+      {/* Form Side */}
+      <div className="flex justify-center items-center p-6 lg:p-20">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="w-full max-w-md space-y-10"
+        >
+          <div className="space-y-3">
+            <h1 className="text-4xl lg:text-5xl font-black text-slate-900">Join Us.</h1>
+            <p className="text-slate-500 font-bold">Already a member? <Link to="/login" className="text-indigo-600 hover:text-indigo-700 underline">Sign in instead</Link></p>
           </div>
-        </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
+              <div className="input-group group">
+                <FaUser className="input-icon" />
+                <input required name="name" placeholder="Full Name" className="input-field" />
+              </div>
+
+              <div className="input-group group">
+                <FaEnvelope className="input-icon" />
+                <input required name="email" type="email" placeholder="Email Address" className="input-field" />
+              </div>
+
+              <div className="input-group group">
+                <FaImage className="input-icon" />
+                <input required name="photoURL" placeholder="Avatar Image URL" className="input-field" />
+              </div>
+
+              <div className="input-group group pr-2">
+                <FaLock className="input-icon" />
+                <input
+                  required
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Strong Password"
+                  className="input-field"
+                />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="p-2 text-slate-400 hover:text-emerald-500 transition-colors shrink-0">
+                  {showPassword ? <IoEyeOutline size={20} /> : <IoEyeOffOutline size={20} />}
+                </button>
+              </div>
+            </div>
+
+            {error && <p className="text-rose-500 text-sm font-bold bg-rose-50 p-3 rounded-lg border border-rose-100">{error}</p>}
+
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="w-full my-btn py-5 text-lg font-black tracking-widest shadow-xl shadow-emerald-500/20 disabled:opacity-70 group"
+            >
+              {loading ? "Creating..." : "Start Your Journey"} <FaArrowRight className="inline ml-2 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </form>
+
+          <button 
+            type="button" 
+            onClick={handleGoogleSignIn}
+            className="w-full py-4 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-200 transition-all shadow-sm"
+          >
+            <FaGoogle className="text-rose-500" /> Sign up with Google
+          </button>
+        </motion.div>
       </div>
+
+      {/* Visual Side */}
+      <div className="hidden lg:flex relative bg-slate-900 justify-center items-center p-20 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506784919140-50d436d44547?q=80&w=2000')] bg-cover bg-center opacity-40 blur-[1px]" />
+        <div className="absolute inset-0 bg-emerald-900/40" />
+        
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="relative z-10 text-center space-y-8"
+        >
+          <div className="w-24 h-24 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl mx-auto flex items-center justify-center shadow-2xl skew-y-3">
+             <div className="w-12 h-12 bg-emerald-500 rounded-xl" />
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-5xl font-black text-white leading-tight underline decoration-emerald-500 underline-offset-8">Progress.</h2>
+            <p className="text-slate-200 text-xl font-medium max-w-sm mx-auto">Join the collective effort to build better lives through consistent daily habits.</p>
+          </div>
+        </motion.div>
+      </div>
+
     </div>
   );
 };

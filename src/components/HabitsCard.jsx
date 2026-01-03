@@ -1,35 +1,54 @@
 import React from "react";
 import { Link } from "react-router";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
+import { CalendarIcon, UserIcon } from "@heroicons/react/24/outline";
 
 const HabitsCard = ({ habit }) => {
-  const { _id, title, category, image,  created_at} =
-    habit;
-    console.log(habit)
+  const { _id, title, category, image, created_at, user_name } = habit;
+  
   return (
-    <div
-    className=" p-3 flex flex-col justify-between shadow-sm">
-      <div class="relative w-full h-[300px] ">
-        <img src={image} class="w-full h-full object-cover" />
-
-        <div class="absolute inset-0 bg-black opacity-50"></div>
-
-        <div class="absolute inset-1 flex flex-col items-center gap-5 justify-center text-white">
-          <h1 class="text-xl text-white font-bold ms-10 text-left ">{title}</h1>
+    <div className="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100 h-full flex flex-col">
+      {/* Image Section */}
+      <div className="relative h-64 overflow-hidden">
+        <img 
+          src={image || "https://images.unsplash.com/photo-1484417894907-623942c8ee29?q=80&w=800&auto=format&fit=crop"} 
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+          alt={title}
+        />
+        <div className="absolute inset-0 bg-slate-900/40 opacity-60 group-hover:opacity-80 transition-opacity" />
+        <div className="absolute bottom-4 left-6">
+          <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full uppercase tracking-widest">
+            {category}
+          </span>
         </div>
       </div>
-      <div className="flex flex-col gap-2 ">
-        <h4 className="text-xl font-bold mt-2">{title || ""}</h4>
-        <div className="flex items-center justify-between">
-          <span>{category}</span>
-          <div className="badge badge-outline badge-error">{created_at.split(",")[0]}</div>
+
+      {/* Content Section */}
+      <div className="p-8 flex flex-col flex-grow space-y-4">
+        <h3 className="text-2xl font-bold text-slate-800 line-clamp-1 group-hover:text-emerald-600 transition-colors">
+          {title}
+        </h3>
+        
+        <div className="flex items-center justify-between text-slate-500 text-sm font-medium">
+          <div className="flex items-center gap-2">
+            <UserIcon className="w-4 h-4 text-emerald-500" />
+            <span>{user_name || "DailyZone User"}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CalendarIcon className="w-4 h-4 text-amber-500" />
+            <span>{created_at ? created_at.split(",")[0] : "Recent"}</span>
+          </div>
         </div>
-        <Link to={"/habit-details"} state={_id} className="btn my-btn">
-          View Details
-        </Link>
+
+        <div className="pt-4 mt-auto">
+          <Link 
+            to={"/habit-details"} 
+            state={_id} 
+            className="w-full my-btn flex items-center justify-center gap-2"
+          >
+            Explore Habit
+          </Link>
+        </div>
       </div>
-      
     </div>
   );
 };

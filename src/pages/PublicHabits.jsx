@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import HabitsCard from "../components/HabitsCard";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import useAuth from "../hooks/useAuth";
 import Spinners from "../components/Spinners";
 import { Link } from "react-router";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaSearch } from "react-icons/fa";
+import { 
+  Squares2X2Icon, 
+  FunnelIcon,
+  MagnifyingGlassIcon,
+  SparklesIcon
+} from "@heroicons/react/24/outline";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PublicHabits = () => {
   const { instance } = useAxiosSecure();
@@ -12,195 +18,175 @@ const PublicHabits = () => {
   const [habits, setHabits] = useState([]);
   const [filteredHabits, setFilteredHabits] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
-    setIsLoading(true);
-    instance
-      .get("/all-habits")
-      .then((reslut) => {
-        setHabits(reslut.data);
-        setFilteredHabits(reslut.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetchHabits();
   }, [instance]);
-  // handle search and sorting
+
+  const fetchHabits = async () => {
+    setIsLoading(true);
+    try {
+      const res = await instance.get("/all-habits");
+      setHabits(res.data);
+      setFilteredHabits(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     let filtered = habits;
-    const searchValue = searchTerm.trim().toLowerCase();
-    if (!searchValue) {
-      setFilteredHabits(habits);
+    if (searchTerm) {
+      filtered = filtered.filter((h) => h.title.toLowerCase().includes(searchTerm.toLowerCase()));
     }
-    if (searchValue) {
-       filtered = filtered.filter((habit) =>
-        habit?.title?.trim().toLowerCase().includes(searchValue)
-      );
-      setIsLoading(false)
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter((h) => h.category === selectedCategory);
     }
-    // handleSorting
-    if (selectedCategory === "All") {
-      return setFilteredHabits(habits);
-    }
-    if (selectedCategory) {
-      filtered = filtered.filter((habit) => habit.category === selectedCategory);
-    }
-  
-
-setFilteredHabits(filtered);
-  },[habits,searchTerm,selectedCategory])
-
-const handleSearch  = (value) => {
-  console.log(value)
-  setSearchTerm(value)
-}
-const handleSorting = (value) => {
-  setSelectedCategory(value)
-}
+    setFilteredHabits(filtered);
+  }, [searchTerm, selectedCategory, habits]);
 
   return (
-    <div>
-      <title>Public Habits</title>
-      <div className="grid grid-cols-2 gap-2">
-        <div class="relative w-full h-[200px] lg:h-[350px]">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSad0Rk8fTlfid2yZNgk9MdylIz_zTpSoBp4A&s"
-            class="w-full h-full object-cover"
-          />
-
-          <div class="absolute inset-0 bg-black opacity-50"></div>
-
-          <div class="absolute inset-1 flex flex-col items-center gap-5 justify-center text-white">
-            <h1 class="text-xl text-white font-bold ms-10 text-left ">
-              Small habits, big results. Start today!
-            </h1>
+    <div className="bg-[#F8FAFC] min-h-screen pb-20">
+      <title>DailyZone - Discover Habits</title>
+      
+      {/* Header Section */}
+      <div className="bg-slate-900 pt-32 pb-56 px-6 text-center overflow-hidden relative">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-emerald-500/10 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute -top-24 -left-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute -bottom-24 -right-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-[120px] pointer-events-none" />
+        
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          className="relative z-10 max-w-4xl mx-auto space-y-6"
+        >
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 backdrop-blur-md rounded-full border border-white/10 text-emerald-400 font-black text-[11px] tracking-[0.2em] uppercase mb-4 shadow-2xl">
+            <SparklesIcon className="w-4 h-4" /> Global Discovery
           </div>
-        </div>
-        <div class="hidden lg:block relative w-full h-[200px] lg:h-[350px]">
-          <img
-            src="https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1024,h_570/https://theincmagazine.com/wp-content/uploads/2022/10/The-Value-of-Reading-and-Why-It-Matters-for-Students-1024x570.jpg"
-            class="w-full h-full object-cover"
-          />
-
-          <div class="absolute inset-0 bg-black opacity-50"></div>
-
-          <div class="absolute inset-1 flex flex-col items-center gap-5 justify-center text-white">
-            <h1 class="text-xl text-white font-bold ms-10 text-left ">
-              Consistency builds your best self.
-            </h1>
-          </div>
-        </div>
-        <div class="hidden lg:block relative w-full h-[350px]">
-          <img
-            src="https://i0.wp.com/post.medicalnewstoday.com/wp-content/uploads/sites/3/2021/12/flat_stomach_GettyImages1214342263_Header-1024x575.jpg?w=1155&h=1528"
-            class="w-full h-full object-cover"
-          />
-
-          <div class="absolute inset-0 bg-black opacity-50"></div>
-
-          <div class="absolute inset-1 flex flex-col items-center gap-5 justify-center text-white">
-            <h1 class="text-xl text-white font-bold ms-10 text-left ">
-              Join others, grow together!
-            </h1>
-          </div>
-        </div>
-        <div class="relative w-full h-[200px] lg:h-[350px]">
-          <img
-            className="h-full w-full"
-            src="https://media.istockphoto.com/id/1054282608/photo/its-time-to-wake-up.jpg?s=612x612&w=0&k=20&c=p5ZDRaaFvJ4vGPcWCkkaTrpFVg8Rjm9oY3vD_RqrJ4Q="
-          />
-
-          <div class="absolute inset-0 bg-black opacity-50"></div>
-
-          <div class="absolute inset-1 flex flex-col items-center gap-5 justify-center text-white">
-            <h1 class="text-xl text-white font-bold ms-10 text-left ">
-              One habit at a time, every day counts.
-            </h1>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col gap-2 justify-center items-center my-3 mb-10">
-        <h1 className="text-4xl font-semibold">
-          Public <span className="color-primary text-center">Habits</span>
-        </h1>
-        <h3 className="text-center">
-          Explore habits shared by others and start your own journey.
-        </h3>
-        <p className="opacity-70 text-sm text-center mx-5">
-          Find inspiration in public habits and track your progress. Join
-          thousands of users building better routines one day at a time.
-        </p>
-      </div>
-      <div className="flex flex-col-reverse gap-4 lg:flex-row justify-between items-center p-5">
-        <div>
-          <h1 className="text-2xl font-bold">
-            Available Habits({filteredHabits.length})
+          <h1 className="text-5xl lg:text-8xl font-black text-white tracking-tight">
+            Level Up Your <span className="text-emerald-500">Mindset.</span>
           </h1>
-        </div>
-        <div className="flex justify-between gap-5">
-          <div>
-            <label className="input outline-0 rounded-4xl">
-              <svg
-                className="h-[1em] opacity-50"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <g
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2.5"
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.3-4.3"></path>
-                </g>
-              </svg>
-              <input
-                onChange={(e) => handleSearch(e.target.value)}
-                type="search "
-                name="search"
-                className="lg:w-60 focus:outline-0"
-                required
-                placeholder="Search"
-              />
-            </label>
-          </div>
-          <div>
-            <select
-              onChange={(e) => handleSorting(e.target.value)}
-              defaultValue="Pick a color"
-              className="select outline-0  rounded-full"
-            >
-              <option disabled={true}>Sort by Category</option>
-              <option value="All">All</option>
-              <option value="Morning">Morning</option>
-              <option value="Study">Study</option>
-              <option value="Evening">Evening</option>
-              <option value="Fitness">Fitness</option>
-              <option value="Work">Work</option>
-            </select>
-          </div>
-        </div>
+          <p className="text-slate-400 text-lg lg:text-2xl max-w-2xl mx-auto font-medium leading-relaxed">
+            Join thousands of others in building life-changing routines. 
+            Discover, adapt, and master your future.
+          </p>
+        </motion.div>
       </div>
-      {isLoading ? (
-        <Spinners />
-      ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-4 ">
-          {filteredHabits.map((habit) => (
-            <HabitsCard habit={habit} />
-          ))}
+
+      <div className="max-w-7xl mx-auto -mt-32 px-6 relative z-20">
+        {/* Filter Bar */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ delay: 0.2, type: "spring", stiffness: 100 }} 
+          className="bg-white/95 backdrop-blur-2xl p-4 lg:p-7 rounded-[2.5rem] shadow-2xl shadow-slate-900/10 mb-16 flex flex-col md:flex-row gap-5 items-center border border-white/40 group/bar"
+        >
+          {/* Search Field */}
+          <div className="flex-1 w-full">
+            <div className="input-group group/input bg-slate-50 border-2 border-transparent transition-all duration-300 focus-within:border-emerald-500/30 focus-within:bg-white focus-within:shadow-xl focus-within:shadow-emerald-500/10 ring-0">
+              <MagnifyingGlassIcon className="input-icon w-6 h-6 text-emerald-500/40 group-focus-within/input:text-emerald-500 group-focus-within/input:scale-110 transition-all drop-shadow-[0_0_8px_rgba(16,185,129,0.2)]" />
+              <input 
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="input-field py-5 text-lg font-bold placeholder:text-slate-300"
+                placeholder="Find your next habit..."
+              />
+            </div>
+          </div>
+          
+          {/* Category Filter */}
+          <div className="w-full md:w-80">
+            <div className="input-group group/input bg-slate-50 border-2 border-transparent pr-4 transition-all duration-300 focus-within:border-indigo-500/30 focus-within:bg-white focus-within:shadow-xl focus-within:shadow-indigo-500/10 ring-0">
+              <FunnelIcon className="input-icon w-6 h-6 text-indigo-500/40 group-focus-within/input:text-indigo-500 group-focus-within/input:scale-110 transition-all drop-shadow-[0_0_8px_rgba(99,102,241,0.2)]" />
+              <select 
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="input-field py-5 font-black appearance-none cursor-pointer text-lg tracking-tight"
+              >
+                <option value="All">All Disciplines</option>
+                <option value="Morning">Morning Rituals</option>
+                <option value="Health">Physical Health</option>
+                <option value="Productivity">Deep Productivity</option>
+                <option value="Evening">Rest & Reflection</option>
+                <option value="Skill Development">Skill Mastery</option>
+              </select>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Content Section */}
+        {isLoading ? (
+          <div className="py-40 flex flex-col items-center justify-center space-y-4">
+            <Spinners />
+            <p className="text-slate-400 font-black animate-pulse uppercase tracking-widest text-xs">Curating habits for you...</p>
+          </div>
+        ) : (
+          <div>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 px-4 gap-4">
+              <div className="space-y-2">
+                <div className="w-12 h-1.5 bg-emerald-500 rounded-full mb-4" />
+                <h2 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+                  Discover <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-indigo-600">Possibilities.</span>
+                </h2>
+                <p className="text-slate-400 font-bold italic tracking-wide">
+                  Showing {filteredHabits.length} curated habits from the community
+                </p>
+              </div>
+              
+              <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-2xl text-[11px] font-black text-slate-400 uppercase tracking-widest border border-slate-200">
+                <Squares2X2Icon className="w-4 h-4" /> Grid View Enabled
+              </div>
+            </div>
+            
+            <AnimatePresence mode="popLayout">
+              {filteredHabits.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-20">
+                  {filteredHabits.map((habit, idx) => (
+                    <motion.div 
+                      key={habit._id} 
+                      layout
+                      initial={{ opacity: 0, y: 30 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ 
+                        duration: 0.4,
+                        delay: idx * 0.05,
+                        type: "spring",
+                        damping: 20
+                      }}
+                    >
+                      <HabitsCard habit={habit} />
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <motion.div 
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }} 
+                  className="text-center py-48 bg-white rounded-[4rem] border-4 border-dashed border-slate-50 flex flex-col items-center justify-center shadow-inner"
+                >
+                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6 text-slate-300">
+                    <MagnifyingGlassIcon className="w-10 h-10" />
+                  </div>
+                  <h3 className="text-2xl font-black text-slate-800 mb-2">No Habits Found</h3>
+                  <p className="text-slate-400 font-bold max-w-sm mx-auto leading-relaxed">
+                    We couldn't find any habits matching your current filter. Try broadening your search!
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+
+        {/* Footer Navigation */}
+        <div className="mt-12 text-center pb-12">
+          <Link to="/" className="inline-flex items-center gap-3 px-8 py-4 bg-white rounded-2xl font-black text-slate-500 hover:text-emerald-600 shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:-translate-y-1">
+            <FaArrowLeft className="text-xs" /> Back to Dashboard
+          </Link>
         </div>
-      )}
-      <div className="flex justify-center items-center py-5">
-        <Link to={"/"} className="btn my-btn">
-          <span>
-            <FaArrowLeft />
-          </span>{" "}
-          Back to Home
-        </Link>
       </div>
     </div>
   );

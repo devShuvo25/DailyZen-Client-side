@@ -1,11 +1,7 @@
-// import React, { use } from 'react';
-import { Features } from 'tailwindcss';
 import Banner from '../components/Banner';
-import { AuthContext } from '../context/AuthContext';
 import useAuth from '../hooks/useAuth';
 import HabitsFeatures from '../components/HabitFeatures';
 import BadHabits from '../components/BadHabits';
-import BadHabitsCard from '../components/BadHabitsCard';
 import StartJourney from '../components/Start';
 import Spinners from '../components/Spinners';
 

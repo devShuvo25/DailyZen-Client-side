@@ -11,6 +11,7 @@ import PrivetRoute from "../PrivetRoutes/PrivetRoute";
 import UpdateHabit from "../pages/UpdateHabit";
 import ErrorPage from "../pages/Error";
 import Details from "../pages/Details";
+import Profile from "../pages/Profile";
 
 const routes = createBrowserRouter([
     {
@@ -39,9 +40,7 @@ const routes = createBrowserRouter([
             },
             {
                 path:'/public-habits',
-                element:<PrivetRoute>
-                    <PublicHabits/>
-                </PrivetRoute>
+                element:<PublicHabits/>
             },
             {
                 path:'/register',
@@ -53,10 +52,19 @@ const routes = createBrowserRouter([
                     <UpdateHabit/>
                 </PrivetRoute>
             },
-            
             {
                 path:"/habit-details",
                 Component:Details
+            },
+            {
+                path:"/contact",
+                Component:Contact
+            },
+            {
+                path:"/profile",
+                element:<PrivetRoute>
+                    <Profile/>
+                </PrivetRoute>
             }
         ]
     },

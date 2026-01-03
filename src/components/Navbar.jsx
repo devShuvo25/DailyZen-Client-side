@@ -17,9 +17,10 @@ const Navbar = () => {
     logout()
       .then(() => {
         Swal.fire({
-          title: "Succesfully logged out",
+          title: "Successfully logged out",
           icon: "success",
-          draggable: true,
+          timer: 1500,
+          showConfirmButton: false,
         });
         navigate("/");
       })
@@ -27,181 +28,212 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-100 shadow-sm px-5 sticky top-0 z-50">
-      {/* LEFT: Logo + Hamburger */}
-      <div className="navbar-start flex items-center gap-3">
-        <button
-          className="lg:hidden text-2xl text-gray-700"
-          onClick={() => setIsDrawerOpen(true)}
-        >
-          <FaBars />
-        </button>
+    <div className="sticky top-0 z-50 px-4 py-2">
+      <div className="navbar glass-effect rounded-2xl shadow-lg px-6 h-16 max-w-7xl mx-auto">
+        {/* LEFT: Logo + Hamburger */}
+        <div className="navbar-start flex items-center gap-3">
+          <button
+            className="lg:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            onClick={() => setIsDrawerOpen(true)}
+          >
+            <FaBars className="text-xl text-slate-700" />
+          </button>
 
-        <a className="hidden lg:flex text-2xl font-bold  items-center gap-1">
-          <GrWheelchairActive color="#3BB143" />
-          <span>Daily</span>
-          <span className="hidden lg:block color-primary">Zone</span>
-        </a>
-        { user?
-         <a className="lg:hidden text-2xl font-bold flex items-center gap-1">
-          <GrWheelchairActive color="#3BB143" />
-          <span>Daily</span>
-          <span className="color-primary">Zone</span>
-        </a> :
-        <a className="lg:hidden text-2xl font-bold flex items-center gap-1">
-          <GrWheelchairActive color="#3BB143" />
-          <span>D</span>
-          <span className="color-primary">Z</span>
-        </a>
-       }
-      </div>
+          <Link to="/" className="hidden lg:flex items-center gap-2 group">
+            <div className="p-2 bg-emerald-100 rounded-xl group-hover:rotate-12 transition-transform duration-300">
+              <GrWheelchairActive className="text-2xl text-[#10B981]" />
+            </div>
+            <span className="text-2xl font-extrabold tracking-tight">
+              <span className="text-slate-800">Daily</span>
+              <span className="text-emerald-500">Zone</span>
+            </span>
+          </Link>
 
-      {/* CENTER: Desktop NavLinks */}
-      <div className="navbar-center hidden lg:flex gap-5 items-center">
-        {["/", "/add-habit", "/my-habits", "/public-habits"].map((path, i) => {
-          const names = ["Home", "Add Habit", "My Habits", "Public Habits"];
-          return (
+          {user ? (
+            <Link to="/" className="lg:hidden flex items-center gap-2">
+              <GrWheelchairActive className="text-2xl text-[#10B981]" />
+              <span className="text-xl font-bold text-slate-800">Daily<span className="text-emerald-500">Zone</span></span>
+            </Link>
+          ) : (
+            <Link to="/" className="lg:hidden flex items-center gap-1">
+              <GrWheelchairActive className="text-2xl text-[#10B981]" />
+              <span className="text-xl font-bold text-emerald-500">DZ</span>
+            </Link>
+          )}
+        </div>
+
+        {/* CENTER: Desktop NavLinks */}
+        <div className="navbar-center hidden lg:flex gap-1 items-center bg-slate-50/50 p-1.5 rounded-2xl border border-slate-100">
+          {[
+            { path: "/", name: "Home" },
+            { path: "/add-habit", name: "Add Habit" },
+            { path: "/my-habits", name: "My Habits" },
+            { path: "/public-habits", name: "Public Habits" },
+            { path: "/contact", name: "Contact" },
+          ].map((item, i) => (
             <NavLink
               key={i}
-              to={path}
+              to={item.path}
               className={({ isActive }) =>
-                isActive
-                  ? "color-primary font-semibold underline"
-                  : "color-text font-semibold"
+                `relative px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${
+                  isActive
+                    ? "text-white"
+                    : "text-slate-500 hover:text-slate-900"
+                }`
               }
             >
-              {names[i]}
+              {({ isActive }) => (
+                <>
+                  <span className="relative z-10">{item.name}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-active"
+                      className="absolute inset-0 bg-emerald-500 rounded-xl shadow-lg shadow-emerald-500/20"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                </>
+              )}
             </NavLink>
-          );
-        })}
-      </div>
+          ))}
+        </div>
 
-      {/* RIGHT: User or Auth Buttons */}
-      <div className="navbar-end">
-        {user ? (
-          <div className="flex justify-center items-center gap-5">
-            <button onClick={handleLogout} className="btn my-btn">
-              Logout
-            </button>
-            <button
-             data-tooltip-id="my-tooltip"
-             data-tooltip-content= {`${user?.displayName}`}
-            className="rounded-full border-2 border-[#3BB143] p-[2px] cursor-pointer">
-              <img
-                className="h-[30px] w-[30px] rounded-full"
-                src={
-                  user?.photoURL ||
-                  "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg"
-                }
-                alt="User"
-              />
-            </button>
-            <Tooltip id="my-tooltip" place="top" effect="solid" />
-          </div>
-        ) : (
-          <div className="flex justify-between gap-5">
-            <Link to={"/login"} className="btn my-btn">
-              Login
-            </Link>
-            <Link to={"/register"} className="btn my-btn">
-              Sign Up
-            </Link>
-          </div>
-        )}
+        {/* RIGHT: User or Auth Buttons */}
+        <div className="navbar-end gap-3">
+          {user ? (
+            <div className="flex items-center gap-4">
+              <button onClick={handleLogout} className="my-btn hidden md:block">
+                Logout
+              </button>
+              <Link 
+                to="/profile"
+                data-tooltip-id="user-tooltip"
+                data-tooltip-content={user?.displayName}
+                className="relative group cursor-pointer"
+              >
+                <div className="w-10 h-10 rounded-xl border-2 border-emerald-500 p-0.5 overflow-hidden ring-4 ring-emerald-50 group-hover:scale-110 transition-transform duration-300">
+                  <img
+                    className="w-full h-full object-cover rounded-[7px]"
+                    src={user?.photoURL || "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg"}
+                    alt="User"
+                  />
+                </div>
+              </Link>
+              <Tooltip id="user-tooltip" place="bottom" />
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link to="/login" className="px-5 py-2 text-slate-600 font-semibold hover:text-slate-900 transition-colors">
+                Login
+              </Link>
+              <Link to="/register" className="my-btn">
+                Sign Up
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ✅ Mobile Drawer */}
       <AnimatePresence>
         {isDrawerOpen && (
           <>
-            {/* Drawer Overlay */}
             <motion.div
-              className="fixed inset-0 bg-black bg-opacity-40 z-40"
+              className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsDrawerOpen(false)}
             />
 
-            {/* Drawer Content */}
             <motion.div
-              className="fixed top-0 left-0 h-full w-[75%] max-w-[280px] bg-white shadow-xl z-50 flex flex-col p-6"
+              className="fixed top-0 left-0 h-full w-[80%] max-w-[320px] bg-white shadow-2xl z-50 flex flex-col p-8"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "spring", stiffness: 100, damping: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-              <div className="flex justify-between items-center mb-8">
-                <div className="flex items-center gap-2 text-2xl font-bold">
-                  <GrWheelchairActive color="#3BB143" />
-                  <span>Daily</span>
-                  <span className="color-primary">Zone</span>
-                </div>
+              <div className="flex justify-between items-center mb-10">
+                <Link to="/" className="flex items-center gap-2">
+                  <GrWheelchairActive className="text-3xl text-[#10B981]" />
+                  <span className="text-2xl font-extrabold text-slate-800">
+                    Daily<span className="text-emerald-500">Zone</span>
+                  </span>
+                </Link>
                 <button
-                  className="text-xl text-gray-600"
+                  className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
                   onClick={() => setIsDrawerOpen(false)}
                 >
-                  <FaTimes />
+                  <FaTimes className="text-xl text-slate-400" />
                 </button>
               </div>
 
-              <div className="flex flex-col gap-4">
-                {["/", "/add-habit", "/my-habits", "/public-habits"].map(
-                  (path, i) => {
-                    const names = [
-                      "Home",
-                      "Add Habit",
-                      "My Habits",
-                      "Public Habits",
-                    ];
-                    return (
-                      <NavLink
-                        key={i}
-                        to={path}
-                        onClick={() => setIsDrawerOpen(false)}
-                        className={({ isActive }) =>
-                          `text-lg font-semibold transition-all ${
-                            isActive
-                              ? "text-[#3BB143] underline"
-                              : "text-gray-700 hover:text-[#3BB143]"
-                          }`
-                        }
-                      >
-                        {names[i]}
-                      </NavLink>
-                    );
-                  }
-                )}
+              <div className="flex flex-col gap-3">
+                {[
+                  { path: "/", name: "Home" },
+                  { path: "/add-habit", name: "Add Habit" },
+                  { path: "/my-habits", name: "My Habits" },
+                  { path: "/public-habits", name: "Public Habits" },
+                  { path: "/contact", name: "Contact" },
+                ].map((item, i) => (
+                  <NavLink
+                    key={i}
+                    to={item.path}
+                    onClick={() => setIsDrawerOpen(false)}
+                    className={({ isActive }) =>
+                      `group relative flex items-center justify-between px-6 py-4 rounded-2xl text-lg font-black transition-all ${
+                        isActive
+                          ? "bg-emerald-50 text-emerald-600 pl-8"
+                          : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                      }`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span className="relative z-10">{item.name}</span>
+                        {isActive && (
+                          <motion.div 
+                            layoutId="mobile-nav-indicator"
+                            className="absolute left-0 w-1.5 h-8 bg-emerald-500 rounded-r-full" 
+                          />
+                        )}
+                        <span className={`opacity-0 group-hover:opacity-100 transition-opacity ${isActive ? 'text-emerald-300' : 'text-slate-200'}`}>
+                          →
+                        </span>
+                      </>
+                    )}
+                  </NavLink>
+                ))}
               </div>
 
-              <div className="mt-auto pt-6 border-t border-gray-200">
+              <div className="mt-auto space-y-3">
                 {user ? (
                   <button
                     onClick={() => {
                       handleLogout();
                       setIsDrawerOpen(false);
                     }}
-                    className="btn w-full bg-[#3BB143] text-white font-semibold rounded-lg"
+                    className="w-full my-btn"
                   >
                     Logout
                   </button>
                 ) : (
-                  <div className="flex flex-col gap-3">
+                  <>
                     <Link
-                      to={"/login"}
-                      className="btn w-full bg-[#3BB143] text-white font-semibold rounded-lg"
+                      to="/login"
+                      className="w-full my-btn-2 block text-center"
                       onClick={() => setIsDrawerOpen(false)}
                     >
                       Login
                     </Link>
                     <Link
-                      to={"/register"}
-                      className="btn w-full border border-[#3BB143] text-[#3BB143] font-semibold rounded-lg"
+                      to="/register"
+                      className="w-full my-btn block text-center"
                       onClick={() => setIsDrawerOpen(false)}
                     >
                       Sign Up
                     </Link>
-                  </div>
+                  </>
                 )}
               </div>
             </motion.div>
