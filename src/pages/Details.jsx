@@ -15,7 +15,10 @@ import {
   TagIcon
 } from "@heroicons/react/24/outline";
 
+import useTheme from "../hooks/useTheme";
+
 const Details = () => {
+  const { isDark } = useTheme();
   const { user } = useAuth();
   const location = useLocation();
   const { instance } = useAxiosSecure();
@@ -79,15 +82,19 @@ const Details = () => {
   const percentage = Math.min((progressDayCount / 30) * 100, 100);
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen pb-20 pt-32 px-6">
+    <div className={`min-h-screen pb-20 pt-32 px-6 transition-colors duration-300 ${isDark ? 'bg-slate-950' : 'bg-[#F8FAFC]'}`}>
       <title>DailyZone - Habit Details</title>
       <div className="max-w-6xl mx-auto">
-        <Link to={-1} className="inline-flex items-center gap-2 text-slate-500 font-bold hover:text-slate-900 transition-colors mb-8 group">
+        <Link to={-1} className={`inline-flex items-center gap-2 font-bold mb-8 group transition-colors ${
+          isDark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'
+        }`}>
           <ArrowLeftIcon className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           Back to previous
         </Link>
 
-        <div className="bg-white rounded-[3rem] shadow-2xl shadow-slate-900/5 overflow-hidden border border-slate-100">
+        <div className={`rounded-[3rem] shadow-2xl overflow-hidden border transition-colors duration-300 ${
+          isDark ? 'bg-slate-800 shadow-slate-900/50 border-slate-700' : 'bg-white shadow-slate-900/5 border-slate-100'
+        }`}>
           <div className="flex flex-col lg:flex-row">
             {/* Image Section */}
             <div className="lg:w-2/5 relative h-[400px] lg:h-auto overflow-hidden">
@@ -109,62 +116,90 @@ const Details = () => {
             <div className="lg:w-3/5 p-8 lg:p-16 flex flex-col justify-between">
               <div className="space-y-12">
                 <div className="flex flex-col md:flex-row items-center gap-12">
-                   <div className="w-32 h-32 flex-shrink-0">
-                     <CircularProgressbar
-                       value={percentage}
-                       text={`${Math.round(percentage)}%`}
-                       strokeWidth={10}
-                       styles={buildStyles({
-                         textSize: '20px',
-                         pathColor: '#10B981',
-                         textColor: '#0F172A',
-                         trailColor: '#F1F5F9',
-                         strokeLinecap: 'round'
-                       })}
-                     />
-                     <p className="text-center text-[10px] uppercase tracking-widest font-bold text-slate-400 mt-4">30-Day Progress</p>
-                   </div>
+                     <div className="w-32 h-32 flex-shrink-0">
+                       <CircularProgressbar
+                         value={percentage}
+                         text={`${Math.round(percentage)}%`}
+                         strokeWidth={10}
+                         styles={buildStyles({
+                           textSize: '20px',
+                           pathColor: '#10B981',
+                           textColor: isDark ? '#F1F5F9' : '#0F172A',
+                           trailColor: isDark ? '#334155' : '#F1F5F9',
+                           strokeLinecap: 'round'
+                         })}
+                       />
+                       <p className={`text-center text-[10px] uppercase tracking-widest font-bold mt-4 transition-colors ${
+                         isDark ? 'text-slate-500' : 'text-slate-400'
+                       }`}>30-Day Progress</p>
+                     </div>
                    
                    <div className="grid grid-cols-2 gap-8 w-full">
                      <div className="space-y-1">
-                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                       <p className={`text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors ${
+                         isDark ? 'text-slate-500' : 'text-slate-400'
+                       }`}>
                          <FireIcon className="w-4 h-4 text-amber-500" /> Current Streak
                        </p>
-                       <p className="text-2xl font-black text-slate-800">{currentHabit?.current_streak || 0} Days</p>
+                       <p className={`text-2xl font-black transition-colors ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                         {currentHabit?.current_streak || 0} Days
+                       </p>
                      </div>
                      <div className="space-y-1">
-                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                       <p className={`text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors ${
+                         isDark ? 'text-slate-500' : 'text-slate-400'
+                       }`}>
                          <CalendarIcon className="w-4 h-4 text-emerald-500" /> Started On
                        </p>
-                       <p className="text-lg font-bold text-slate-800">{currentHabit?.created_at ? new Date(currentHabit.created_at).toLocaleDateString() : 'N/A'}</p>
+                       <p className={`text-lg font-bold transition-colors ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                         {currentHabit?.created_at ? new Date(currentHabit.created_at).toLocaleDateString() : 'N/A'}
+                       </p>
                      </div>
                    </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                  <h3 className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-colors ${
+                    isDark ? 'text-slate-500' : 'text-slate-400'
+                  }`}>
                     <TagIcon className="w-4 h-4" /> Motivation & Description
                   </h3>
-                  <p className="text-slate-600 leading-relaxed text-lg italic">"{currentHabit?.description}"</p>
+                  <p className={`text-lg italic leading-relaxed transition-colors ${
+                    isDark ? 'text-slate-300' : 'text-slate-600'
+                  }`}>"{currentHabit?.description}"</p>
                 </div>
 
-                <div className="pt-8 border-t border-slate-50 grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+                <div className={`pt-8 border-t grid grid-cols-1 md:grid-cols-2 gap-6 transition-colors ${
+                  isDark ? 'border-slate-700' : 'border-slate-50'
+                }`}>
+                  <div className={`flex items-center gap-4 p-4 rounded-2xl transition-colors ${
+                    isDark ? 'bg-slate-700/50' : 'bg-slate-50'
+                  }`}>
                     <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
                       <UserCircleIcon className="w-6 h-6" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase">Creator</p>
-                      <p className="text-sm font-bold text-slate-800">{currentHabit?.user_name}</p>
+                      <p className={`text-[10px] font-bold uppercase transition-colors ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`}>Creator</p>
+                      <p className={`text-sm font-bold transition-colors ${
+                        isDark ? 'text-white' : 'text-slate-800'
+                      }`}>{currentHabit?.user_name}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+                  <div className={`flex items-center gap-4 p-4 rounded-2xl transition-colors ${
+                    isDark ? 'bg-slate-700/50' : 'bg-slate-50'
+                  }`}>
                     <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
                       <EnvelopeIcon className="w-6 h-6" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase">Contact</p>
-                      <p className="text-sm font-bold text-slate-800">{currentHabit?.user_email}</p>
+                      <p className={`text-[10px] font-bold uppercase transition-colors ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`}>Contact</p>
+                      <p className={`text-sm font-bold transition-colors ${
+                        isDark ? 'text-white' : 'text-slate-800'
+                      }`}>{currentHabit?.user_email}</p>
                     </div>
                   </div>
                 </div>
@@ -172,7 +207,9 @@ const Details = () => {
 
               <div className="mt-12">
                 {currentHabit?.completion_history?.includes(new Date().toISOString().split('T')[0]) ? (
-                   <div className="w-full py-5 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center gap-2 font-bold shadow-sm border border-emerald-100">
+                   <div className={`w-full py-5 text-emerald-600 rounded-2xl flex items-center justify-center gap-2 font-bold shadow-sm border transition-colors ${
+                     isDark ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-emerald-50 border-emerald-100'
+                   }`}>
                      <CheckCircleIcon className="w-6 h-6" /> Completed for Today
                    </div>
                 ) : (
