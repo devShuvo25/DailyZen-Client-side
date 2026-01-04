@@ -3,6 +3,7 @@ import CardFrFeatures from './CardFrFeatures';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useAxiosSecure from '../hooks/useAxiosSecure';
+import useTheme from '../hooks/useTheme';
 import Spinners from './Spinners';
 import { 
   SparklesIcon, 
@@ -14,6 +15,7 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const HabitsFeatures = ({children}) => {
+    const { isDark } = useTheme();
     const [habits,setHabits] = useState([]);
     const {instance} = useAxiosSecure();
     const [isLoading,setIsLoading] = useState(true);
@@ -108,14 +110,22 @@ const HabitsFeatures = ({children}) => {
         <div className='max-w-7xl mx-auto px-6 py-20 overflow-hidden'>
             {/* Features Section */}
             <div className='text-center space-y-4 mb-20'>
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-full font-bold text-xs tracking-widest uppercase border border-emerald-100 mb-2">
+                <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-xs tracking-widest uppercase border mb-2 transition-colors duration-300 ${
+                    isDark 
+                        ? 'bg-emerald-900/30 text-emerald-400 border-emerald-800' 
+                        : 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                }`}>
                    <SparklesIcon className="w-4 h-4" /> Latest Capabilities
                 </div>
-                <h1 className='text-4xl lg:text-7xl font-black text-slate-900 leading-tight'>
+                <h1 className={`text-4xl lg:text-7xl font-black leading-tight transition-colors duration-300 ${
+                    isDark ? 'text-white' : 'text-slate-900'
+                }`}>
                     Elevate Your <span className='text-emerald-500'>Routine.</span>
                 </h1>
-                <p className='text-slate-500 text-lg lg:text-xl max-w-2xl mx-auto font-medium'>
-                    Precision tools designed for individuals who refuse to settle for mediocrity.
+                <p className={`text-lg lg:text-xl max-w-2xl mx-auto font-medium transition-colors duration-300 ${
+                    isDark ? 'text-slate-400' : 'text-slate-500'
+                }`}>
+                    Precision tools designed for individuals who refuse to settle for mediocracy.
                 </p>
             </div>
 
@@ -133,11 +143,17 @@ const HabitsFeatures = ({children}) => {
             {/* Why Habits Section - High Impact Redesign */}
             <div ref={whySectionRef} className="relative pt-20">
                 <div className='why-header text-center space-y-6 mb-24 relative z-10'>
-                    <h2 className='text-amber-500 font-black tracking-[0.3em] uppercase text-sm'>Evolution Strategy</h2>
-                    <h1 className='text-4xl lg:text-7xl font-black text-slate-900'>
+                    <h2 className={`font-black tracking-[0.3em] uppercase text-sm transition-colors duration-300 ${
+                        isDark ? 'text-amber-400' : 'text-amber-500'
+                    }`}>Evolution Strategy</h2>
+                    <h1 className={`text-4xl lg:text-7xl font-black transition-colors duration-300 ${
+                        isDark ? 'text-white' : 'text-slate-900'
+                    }`}>
                         Why Choose <span className='text-[#10B981]'>Discipline?</span>
                     </h1>
-                    <p className="text-slate-400 font-bold max-w-md mx-auto italic">"We are what we repeatedly do. Excellence, then, is not an act, but a habit." — Aristotle</p>
+                    <p className={`font-bold max-w-md mx-auto italic transition-colors duration-300 ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                    }`}>"We are what we repeatedly do. Excellence, then, is not an act, but a habit." — Aristotle</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -170,40 +186,52 @@ const HabitsFeatures = ({children}) => {
                             {/* Metric Cards Stack */}
                             <div className="space-y-4">
                                 {/* Card 1 */}
-                                <div className="benefit-bubble bg-white rounded-[2rem] p-6 shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all duration-300 hover:-translate-y-1">
+                                <div className={`benefit-bubble rounded-[2rem] p-6 shadow-lg border transition-all duration-300 hover:-translate-y-1 ${
+                                    isDark 
+                                        ? 'bg-slate-800 border-slate-700 shadow-slate-900/50 hover:shadow-xl hover:shadow-emerald-900/30'
+                                        : 'bg-white border-slate-100 shadow-slate-200/50 hover:shadow-xl hover:shadow-emerald-100/50'
+                                }`}>
                                     <div className="flex items-center gap-4">
                                         <div className="w-14 h-14 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
                                             <ArrowTrendingUpIcon className="w-7 h-7 text-white" />
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-2xl font-black text-slate-900">+127%</p>
-                                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Productivity Boost</p>
+                                            <p className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>+127%</p>
+                                            <p className={`text-xs font-bold uppercase tracking-wide ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Productivity Boost</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Card 2 */}
-                                <div className="benefit-bubble bg-white rounded-[2rem] p-6 shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-300 hover:-translate-y-1" style={{animationDelay: '0.2s'}}>
+                                <div className={`benefit-bubble rounded-[2rem] p-6 shadow-lg border transition-all duration-300 hover:-translate-y-1 ${
+                                    isDark 
+                                        ? 'bg-slate-800 border-slate-700 shadow-slate-900/50 hover:shadow-xl hover:shadow-indigo-900/30'
+                                        : 'bg-white border-slate-100 shadow-slate-200/50 hover:shadow-xl hover:shadow-indigo-100/50'
+                                }`} style={{animationDelay: '0.2s'}}>
                                     <div className="flex items-center gap-4">
                                         <div className="w-14 h-14 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
                                             <ShieldCheckIcon className="w-7 h-7 text-white" />
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-2xl font-black text-slate-900">21 Days</p>
-                                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">To Form a Habit</p>
+                                            <p className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>21 Days</p>
+                                            <p className={`text-xs font-bold uppercase tracking-wide ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>To Form a Habit</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Card 3 */}
-                                <div className="benefit-bubble bg-white rounded-[2rem] p-6 shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-xl hover:shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1" style={{animationDelay: '0.4s'}}>
+                                <div className={`benefit-bubble rounded-[2rem] p-6 shadow-lg border transition-all duration-300 hover:-translate-y-1 ${
+                                    isDark 
+                                        ? 'bg-slate-800 border-slate-700 shadow-slate-900/50 hover:shadow-xl hover:shadow-amber-900/30'
+                                        : 'bg-white border-slate-100 shadow-slate-200/50 hover:shadow-xl hover:shadow-amber-100/50'
+                                }`} style={{animationDelay: '0.4s'}}>
                                     <div className="flex items-center gap-4">
                                         <div className="w-14 h-14 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/30">
                                             <BeakerIcon className="w-7 h-7 text-white" />
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-2xl font-black text-slate-900">10,000+</p>
-                                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Lives Transformed</p>
+                                            <p className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>10,000+</p>
+                                            <p className={`text-xs font-bold uppercase tracking-wide ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Lives Transformed</p>
                                         </div>
                                     </div>
                                 </div>
@@ -216,14 +244,22 @@ const HabitsFeatures = ({children}) => {
                         {benefits.map((benefit, i) => (
                             <div 
                                 key={i} 
-                                className="group flex gap-8 p-8 bg-white hover:bg-slate-50 border border-slate-100 rounded-[2.5rem] transition-all duration-500 hover:shadow-xl hover:shadow-slate-200/50"
+                                className={`group flex gap-8 p-8 border rounded-[2.5rem] transition-all duration-500 hover:shadow-xl ${
+                                    isDark 
+                                        ? 'bg-slate-800 hover:bg-slate-700 border-slate-700 hover:shadow-slate-900/50'
+                                        : 'bg-white hover:bg-slate-50 border-slate-100 hover:shadow-slate-200/50'
+                                }`}
                             >
                                 <div className={`w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center bg-${benefit.color}-50 text-${benefit.color}-600 group-hover:scale-110 transition-transform`}>
                                     {benefit.icon}
                                 </div>
                                 <div className="space-y-2">
-                                    <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{benefit.title}</h3>
-                                    <p className="text-slate-500 font-medium leading-relaxed">{benefit.desc}</p>
+                                    <h3 className={`text-2xl font-black uppercase tracking-tight transition-colors duration-300 ${
+                                        isDark ? 'text-white' : 'text-slate-900'
+                                    }`}>{benefit.title}</h3>
+                                    <p className={`font-medium leading-relaxed transition-colors duration-300 ${
+                                        isDark ? 'text-slate-400' : 'text-slate-500'
+                                    }`}>{benefit.desc}</p>
                                 </div>
                             </div>
                         ))}

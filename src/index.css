@@ -11,6 +11,21 @@
   --text-muted: #64748B;
 }
 
+/* Dark Mode Variables */
+.dark {
+  --primary-color: #10B981;
+  --secondary-color: #818CF8;
+  --accent-color: #FBBF24;
+  --bg-primary: #020617;
+  --bg-secondary: #0F172A;
+  --text-main: #F1F5F9;
+  --text-muted: #94A3B8;
+}
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
   background-color: var(--bg-primary);
@@ -26,8 +41,16 @@ body {
   @apply bg-white/70 backdrop-blur-md border border-white/20;
 }
 
+.dark .glass-effect {
+  @apply bg-slate-800/70 backdrop-blur-md border border-slate-700/20;
+}
+
 .glass-card {
   @apply bg-white/40 backdrop-blur-lg border border-white/30 shadow-xl;
+}
+
+.dark .glass-card {
+  @apply bg-slate-800/40 backdrop-blur-lg border border-slate-700/30 shadow-xl;
 }
 
 /* Buttons */
@@ -36,14 +59,26 @@ body {
          transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-emerald-200/50;
 }
 
+.dark .my-btn {
+  @apply hover:shadow-emerald-900/50;
+}
+
 .my-btn-secondary {
   @apply bg-indigo-500 text-white font-semibold py-2 px-6 rounded-xl 
          transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-indigo-200/50;
 }
 
+.dark .my-btn-secondary {
+  @apply hover:shadow-indigo-900/50;
+}
+
 .my-btn-2 {
   @apply bg-white text-[#0F172A] border border-slate-200 font-semibold py-2 px-6 rounded-xl 
          transition-all duration-300 hover:bg-slate-50 shadow-sm;
+}
+
+.dark .my-btn-2 {
+  @apply bg-slate-700 text-slate-100 border-slate-600 hover:bg-slate-600;
 }
 
 /* Utility Colors */
@@ -55,16 +90,32 @@ body {
   @apply text-[#F59E0B];
 }
 
+.dark .color-accent {
+  @apply text-[#FBBF24];
+}
+
 .color-bg {
   @apply bg-[#F8FAFC];
+}
+
+.dark .color-bg {
+  @apply bg-[#0F172A];
 }
 
 .color-text {
   @apply text-[#0F172A];
 }
 
+.dark .color-text {
+  @apply text-[#F1F5F9];
+}
+
 .text-muted {
   @apply text-[#64748B];
+}
+
+.dark .text-muted {
+  @apply text-[#94A3B8];
 }
 
 /* Brand Text (Replaces Gradient Text) */
@@ -79,13 +130,26 @@ body {
          focus-within:border-emerald-500/40 focus-within:ring-4 focus-within:ring-emerald-500/5 focus-within:bg-white focus-within:shadow-sm;
 }
 
+.dark .input-group {
+  @apply bg-slate-800 border-slate-700 hover:border-slate-600
+         focus-within:border-emerald-500/40 focus-within:ring-emerald-500/10 focus-within:bg-slate-900;
+}
+
 .input-icon {
   @apply w-5 h-5 ml-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors shrink-0;
+}
+
+.dark .input-icon {
+  @apply text-slate-500;
 }
 
 .input-field {
   @apply w-full bg-transparent py-4 px-4 outline-none font-medium text-slate-900 
          placeholder:text-slate-400 placeholder:font-medium;
+}
+
+.dark .input-field {
+  @apply text-slate-100 placeholder:text-slate-500;
 }
 
 /* Base Input (Legacy Support/Simplified) */
@@ -95,4 +159,11 @@ body {
          placeholder:text-slate-400 placeholder:font-medium
          hover:border-slate-200
          focus:border-emerald-500/40 focus:ring-4 focus:ring-emerald-500/5 focus:bg-white focus:shadow-sm;
+}
+
+.dark .my-input {
+  @apply bg-slate-800 border-slate-700 text-slate-100
+         placeholder:text-slate-500
+         hover:border-slate-600
+         focus:border-emerald-500/40 focus:ring-emerald-500/10 focus:bg-slate-900;
 }

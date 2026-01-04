@@ -5,8 +5,10 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
 import { FaGoogle, FaUser, FaEnvelope, FaLock, FaImage, FaArrowRight } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
+import useTheme from "../hooks/useTheme";
 
 const Registere = () => {
+  const { isDark } = useTheme();
   const navigate = useNavigate();
   const { createAccount, googleSignIn, setUser, updateUserProfile } = useAuth();
   const [error, setError] = useState("");
@@ -65,7 +67,9 @@ const Registere = () => {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2 bg-[#F8FAFC]">
+    <div className={`min-h-screen grid lg:grid-cols-2 transition-colors duration-300 ${
+      isDark ? 'bg-slate-950' : 'bg-[#F8FAFC]'
+    }`}>
       <title>DailyZone - Create Account</title>
       
       {/* Form Side */}
@@ -76,8 +80,12 @@ const Registere = () => {
           className="w-full max-w-md space-y-10"
         >
           <div className="space-y-3">
-            <h1 className="text-4xl lg:text-5xl font-black text-slate-900">Join Us.</h1>
-            <p className="text-slate-500 font-bold">Already a member? <Link to="/login" className="text-indigo-600 hover:text-indigo-700 underline">Sign in instead</Link></p>
+            <h1 className={`text-4xl lg:text-5xl font-black transition-colors duration-300 ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}>Join Us.</h1>
+            <p className={`font-bold transition-colors duration-300 ${
+              isDark ? 'text-slate-400' : 'text-slate-500'
+            }`}>Already a member? <Link to="/login" className="text-indigo-600 hover:text-indigo-700 underline">Sign in instead</Link></p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -112,7 +120,7 @@ const Registere = () => {
               </div>
             </div>
 
-            {error && <p className="text-rose-500 text-sm font-bold bg-rose-50 p-3 rounded-lg border border-rose-100">{error}</p>}
+            {error && <p className={`text-rose-500 text-sm font-bold p-3 rounded-lg border transition-colors duration-300 ${isDark ? 'bg-rose-950/30 border-rose-900/50' : 'bg-rose-50 border-rose-100'}`}>{error}</p>}
 
             <button 
               type="submit" 
@@ -126,7 +134,11 @@ const Registere = () => {
           <button 
             type="button" 
             onClick={handleGoogleSignIn}
-            className="w-full py-4 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-200 transition-all shadow-sm"
+            className={`w-full py-4 border-2 rounded-2xl flex items-center justify-center gap-4 font-bold transition-all shadow-sm ${
+              isDark 
+                ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-600'
+                : 'bg-white border-slate-100 text-slate-700 hover:bg-slate-50 hover:border-slate-200'
+            }`}
           >
             <FaGoogle className="text-rose-500" /> Sign up with Google
           </button>

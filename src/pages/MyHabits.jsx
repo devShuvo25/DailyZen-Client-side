@@ -11,12 +11,14 @@ import {
 } from "@heroicons/react/24/outline";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import useAuth from "../hooks/useAuth";
+import useTheme from "../hooks/useTheme";
 import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import Spinners from "../components/Spinners";
 import { motion } from "framer-motion";
 
 const MyHabits = () => {
+  const { isDark } = useTheme();
   const { instance } = useAxiosSecure();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -75,7 +77,9 @@ const MyHabits = () => {
   };
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen pb-24">
+    <div className={`min-h-screen pb-24 transition-colors duration-300 ${
+      isDark ? 'bg-slate-950' : 'bg-[#F8FAFC]'
+    }`}>
       <title>DailyZone - My Rituals</title>
       
       {/* Header Section */}
@@ -118,12 +122,20 @@ const MyHabits = () => {
               initial={{ opacity: 0, scale: 0.95 }} 
               animate={{ opacity: 1, scale: 1 }} 
               transition={{ delay: 0.1 * i }} 
-              className="bg-white/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-xl shadow-slate-900/5 flex items-center gap-8 border border-white"
+              className={`backdrop-blur-xl p-8 rounded-[2.5rem] shadow-xl flex items-center gap-8 border transition-colors duration-300 ${
+                isDark 
+                  ? 'bg-slate-800/80 shadow-slate-900/50 border-slate-700' 
+                  : 'bg-white/80 shadow-slate-900/5 border-white'
+              }`}
             >
               <div className={`w-16 h-16 rounded-[1.25rem] ${stat.bg} ${stat.color} flex items-center justify-center shadow-inner`}>{stat.icon}</div>
               <div className="space-y-1">
-                <p className="text-slate-400 font-black text-[11px] uppercase tracking-widest leading-none">{stat.label}</p>
-                <h2 className="text-3xl font-black text-slate-900 tracking-tight">{stat.value}</h2>
+                <p className={`font-black text-[11px] uppercase tracking-widest leading-none transition-colors duration-300 ${
+                  isDark ? 'text-slate-500' : 'text-slate-400'
+                }`}>{stat.label}</p>
+                <h2 className={`text-3xl font-black tracking-tight transition-colors duration-300 ${
+                  isDark ? 'text-white' : 'text-slate-900'
+                }`}>{stat.value}</h2>
               </div>
             </motion.div>
           ))}
@@ -133,12 +145,18 @@ const MyHabits = () => {
         <motion.div 
           initial={{ opacity: 0, y: 30 }} 
           animate={{ opacity: 1, y: 0 }} 
-          className="bg-white rounded-[3rem] shadow-2xl shadow-slate-900/5 border border-slate-50 overflow-hidden"
+          className={`rounded-[3rem] shadow-2xl border overflow-hidden transition-colors duration-300 ${
+            isDark 
+              ? 'bg-slate-800 shadow-slate-900/50 border-slate-700' 
+              : 'bg-white shadow-slate-900/5 border-slate-50'
+          }`}
         >
           {isLoading ? (
             <div className="p-32 flex flex-col items-center justify-center space-y-4">
               <Spinners />
-              <p className="text-slate-400 font-black uppercase tracking-[0.2em] text-[10px]">Assembling your rituals...</p>
+              <p className={`font-black uppercase tracking-[0.2em] text-[10px] transition-colors duration-300 ${
+                isDark ? 'text-slate-500' : 'text-slate-400'
+              }`}>Assembling your rituals...</p>
             </div>
           ) : (
             <>
@@ -146,29 +164,49 @@ const MyHabits = () => {
               <div className="hidden lg:block overflow-x-auto">
                 <table className="table w-full border-collapse">
                   <thead>
-                    <tr className="bg-slate-50/50 border-b border-slate-100 h-20">
-                      <th className="pl-12 text-slate-400 font-black uppercase text-[11px] tracking-widest text-left">Habit Architecture</th>
-                      <th className="text-slate-400 font-black uppercase text-[11px] tracking-widest text-left">Classification</th>
-                      <th className="text-slate-400 font-black uppercase text-[11px] tracking-widest text-left">Current Status</th>
-                      <th className="pr-12 text-right text-slate-400 font-black uppercase text-[11px] tracking-widest">Action Center</th>
+                    <tr className={`border-b h-20 transition-colors duration-300 ${
+                      isDark ? 'bg-slate-900/50 border-slate-700' : 'bg-slate-50/50 border-slate-100'
+                    }`}>
+                      <th className={`pl-12 font-black uppercase text-[11px] tracking-widest text-left transition-colors duration-300 ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`}>Habit Architecture</th>
+                      <th className={`font-black uppercase text-[11px] tracking-widest text-left transition-colors duration-300 ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`}>Classification</th>
+                      <th className={`font-black uppercase text-[11px] tracking-widest text-left transition-colors duration-300 ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`}>Current Status</th>
+                      <th className={`pr-12 text-right font-black uppercase text-[11px] tracking-widest transition-colors duration-300 ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`}>Action Center</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-50">
+                  <tbody className={`divide-y ${isDark ? 'divide-slate-700' : 'divide-slate-50'}`}>
                     {myhabits.map((habit) => (
-                      <tr key={habit._id} className="group hover:bg-slate-50/50 transition-all duration-300">
+                      <tr key={habit._id} className={`group transition-all duration-300 ${
+                        isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-50/50'
+                      }`}>
                         <td className="pl-12 py-8">
                           <div className="flex items-center gap-5">
                             <div className="w-14 h-14 rounded-2xl bg-emerald-500/5 flex items-center justify-center text-emerald-600 font-black text-xl shadow-inner border border-emerald-500/10 transition-transform group-hover:scale-110">
                               {habit.title.charAt(0)}
                             </div>
                             <div>
-                              <h3 className="font-extrabold text-slate-900 text-lg group-hover:text-emerald-600 transition-colors uppercase tracking-tight">{habit.title}</h3>
-                              <p className="text-xs text-slate-400 font-bold tracking-wide italic">Personal Growth Protocol</p>
+                              <h3 className={`font-extrabold text-lg group-hover:text-emerald-600 transition-colors uppercase tracking-tight ${
+                                isDark ? 'text-white' : 'text-slate-900'
+                              }`}>{habit.title}</h3>
+                              <p className={`text-xs font-bold tracking-wide italic transition-colors duration-300 ${
+                                isDark ? 'text-slate-500' : 'text-slate-400'
+                              }`}>Personal Growth Protocol</p>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <span className="px-4 py-1.5 bg-slate-100 text-slate-500 rounded-[10px] text-[10px] font-black uppercase tracking-widest border border-slate-200/50">{habit.category}</span>
+                          <span className={`px-4 py-1.5 rounded-[10px] text-[10px] font-black uppercase tracking-widest border transition-colors duration-300 ${
+                            isDark 
+                              ? 'bg-slate-700 text-slate-300 border-slate-600' 
+                              : 'bg-slate-100 text-slate-500 border-slate-200/50'
+                          }`}>{habit.category}</span>
                         </td>
                         <td>
                           {habit.completion_history?.includes(new Date().toISOString().split('T')[0]) ? (
@@ -186,10 +224,18 @@ const MyHabits = () => {
                         </td>
                         <td className="pr-12 py-8 text-right">
                           <div className="flex justify-end gap-3 translate-x-0 transition-all">
-                            <Link to={"/update-habit"} state={habit._id} className="p-3 rounded-xl bg-white text-slate-400 hover:text-emerald-500 border border-slate-100 hover:border-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/10 transition-all">
+                            <Link to={"/update-habit"} state={habit._id} className={`p-3 rounded-xl border transition-all ${
+                              isDark 
+                                ? 'bg-slate-700 text-slate-400 hover:text-emerald-400 border-slate-600 hover:border-emerald-500/20' 
+                                : 'bg-white text-slate-400 hover:text-emerald-500 border-slate-100 hover:border-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/10'
+                            }`}>
                               <PencilSquareIcon className="w-5 h-5" />
                             </Link>
-                            <button onClick={() => handleDelete(habit._id)} className="p-3 rounded-xl bg-white text-slate-400 hover:text-rose-500 border border-slate-100 hover:border-rose-500/20 hover:shadow-lg hover:shadow-rose-500/10 transition-all">
+                            <button onClick={() => handleDelete(habit._id)} className={`p-3 rounded-xl border transition-all ${
+                              isDark 
+                                ? 'bg-slate-700 text-slate-400 hover:text-rose-400 border-slate-600 hover:border-rose-500/20' 
+                                : 'bg-white text-slate-400 hover:text-rose-500 border-slate-100 hover:border-rose-500/20 hover:shadow-lg hover:shadow-rose-500/10'
+                            }`}>
                               <TrashIcon className="w-5 h-5" />
                             </button>
                           </div>
@@ -203,29 +249,43 @@ const MyHabits = () => {
               {/* Mobile Card List View */}
               <div className="lg:hidden p-4 space-y-4">
                 {myhabits.map((habit) => (
-                  <div key={habit._id} className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 space-y-6">
+                  <div key={habit._id} className={`rounded-3xl p-6 border space-y-6 transition-colors duration-300 ${
+                    isDark ? 'bg-slate-700/50 border-slate-600' : 'bg-slate-50/50 border-slate-100'
+                  }`}>
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-black text-lg shadow-lg shadow-emerald-500/20">
                           {habit.title.charAt(0)}
                         </div>
                         <div>
-                          <h3 className="font-extrabold text-slate-900 uppercase tracking-tight leading-none mb-1">{habit.title}</h3>
-                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{habit.category}</span>
+                          <h3 className={`font-extrabold uppercase tracking-tight leading-none mb-1 transition-colors duration-300 ${
+                            isDark ? 'text-white' : 'text-slate-900'
+                          }`}>{habit.title}</h3>
+                          <span className={`text-[10px] font-black uppercase tracking-[0.2em] transition-colors duration-300 ${
+                            isDark ? 'text-slate-500' : 'text-slate-400'
+                          }`}>{habit.category}</span>
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Link to={"/update-habit"} state={habit._id} className="p-2.5 rounded-xl bg-white text-slate-400 border border-slate-100 shadow-sm active:scale-95">
+                        <Link to={"/update-habit"} state={habit._id} className={`p-2.5 rounded-xl border shadow-sm active:scale-95 transition-colors duration-300 ${
+                          isDark ? 'bg-slate-600 text-slate-300 border-slate-500' : 'bg-white text-slate-400 border-slate-100'
+                        }`}>
                           <PencilSquareIcon className="w-5 h-5" />
                         </Link>
-                        <button onClick={() => handleDelete(habit._id)} className="p-2.5 rounded-xl bg-white text-slate-400 border border-slate-100 shadow-sm active:scale-95">
+                        <button onClick={() => handleDelete(habit._id)} className={`p-2.5 rounded-xl border shadow-sm active:scale-95 transition-colors duration-300 ${
+                          isDark ? 'bg-slate-600 text-slate-300 border-slate-500' : 'bg-white text-slate-400 border-slate-100'
+                        }`}>
                           <TrashIcon className="w-5 h-5" />
                         </button>
                       </div>
                     </div>
 
-                    <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Progress Status</span>
+                    <div className={`pt-4 border-t flex items-center justify-between transition-colors duration-300 ${
+                      isDark ? 'border-slate-600' : 'border-slate-100'
+                    }`}>
+                      <span className={`text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`}>Progress Status</span>
                       {habit.completion_history?.includes(new Date().toISOString().split('T')[0]) ? (
                         <div className="flex items-center gap-2 text-emerald-500 font-bold text-sm">
                           <CheckCircleIcon className="w-5 h-5" /> Done Today
@@ -245,12 +305,18 @@ const MyHabits = () => {
 
               {myhabits.length === 0 && (
                 <div className="p-32 text-center flex flex-col items-center justify-center space-y-6">
-                  <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center text-slate-200 border border-slate-100">
+                  <div className={`w-24 h-24 rounded-full flex items-center justify-center border transition-colors duration-300 ${
+                    isDark ? 'bg-slate-700 text-slate-600 border-slate-600' : 'bg-slate-50 text-slate-200 border-slate-100'
+                  }`}>
                     <CalendarDaysIcon className="w-12 h-12" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-black text-slate-800 tracking-tight">Ritual List Empty</h3>
-                    <p className="text-slate-400 font-bold max-w-xs mx-auto">Design your future by adding your first daily habit.</p>
+                    <h3 className={`text-2xl font-black tracking-tight transition-colors duration-300 ${
+                      isDark ? 'text-white' : 'text-slate-800'
+                    }`}>Ritual List Empty</h3>
+                    <p className={`font-bold max-w-xs mx-auto transition-colors duration-300 ${
+                      isDark ? 'text-slate-400' : 'text-slate-400'
+                    }`}>Design your future by adding your first daily habit.</p>
                   </div>
                   <Link to='/add-habit' className="my-btn inline-flex items-center gap-2 shadow-xl">
                     <PlusIcon className="w-5 h-5" /> Create New Ritual
@@ -263,8 +329,12 @@ const MyHabits = () => {
 
         {/* Footer Navigation */}
         <div className="mt-16 flex flex-col sm:flex-row justify-between items-center gap-8">
-          <Link to='/' className="flex items-center gap-3 font-black text-slate-500 hover:text-emerald-600 transition-all group">
-            <div className="p-2.5 bg-white rounded-xl shadow-sm border border-slate-100 group-hover:shadow-md transition-all">
+          <Link to='/' className={`flex items-center gap-3 font-black transition-all group ${
+            isDark ? 'text-slate-400 hover:text-emerald-400' : 'text-slate-500 hover:text-emerald-600'
+          }`}>
+            <div className={`p-2.5 rounded-xl shadow-sm border group-hover:shadow-md transition-all ${
+              isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'
+            }`}>
               <ArrowLongLeftIcon className="w-5 h-5" />
             </div>
             Back to Dashboard

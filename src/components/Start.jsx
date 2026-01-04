@@ -5,10 +5,12 @@ import { BeakerIcon, SparklesIcon, ChartBarIcon } from "@heroicons/react/24/outl
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import useTheme from "../hooks/useTheme";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const StartJourney = () => {
+  const { isDark } = useTheme();
   const containerRef = useRef(null);
   const formRef = useRef(null);
 
@@ -53,7 +55,7 @@ const StartJourney = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative py-32 lg:py-56 overflow-hidden bg-white">
+    <section ref={containerRef} className={`relative py-32 lg:py-56 overflow-hidden transition-colors duration-300 ${isDark ? 'bg-slate-950' : 'bg-white'}`}>
       {/* Decorative Elements */}
       <div className="absolute top-1/4 left-10 particle w-4 h-4 bg-emerald-500/10 rounded-full blur-sm" />
       <div className="absolute bottom-1/4 right-20 particle w-6 h-6 bg-indigo-500/10 rounded-full blur-md" />

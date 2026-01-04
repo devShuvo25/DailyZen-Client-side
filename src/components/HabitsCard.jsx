@@ -1,12 +1,16 @@
 import React from "react";
 import { Link } from "react-router";
 import { CalendarIcon, UserIcon } from "@heroicons/react/24/outline";
+import useTheme from "../hooks/useTheme";
 
 const HabitsCard = ({ habit }) => {
+  const { isDark } = useTheme();
   const { _id, title, category, image, created_at, user_name } = habit;
   
   return (
-    <div className="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100 h-full flex flex-col">
+    <div className={`group relative rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border h-full flex flex-col ${
+      isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'
+    }`}>
       {/* Image Section */}
       <div className="relative h-64 overflow-hidden">
         <img 
@@ -24,11 +28,15 @@ const HabitsCard = ({ habit }) => {
 
       {/* Content Section */}
       <div className="p-8 flex flex-col flex-grow space-y-4">
-        <h3 className="text-2xl font-bold text-slate-800 line-clamp-1 group-hover:text-emerald-600 transition-colors">
+        <h3 className={`text-2xl font-bold line-clamp-1 group-hover:text-emerald-600 transition-colors ${
+          isDark ? 'text-white' : 'text-slate-800'
+        }`}>
           {title}
         </h3>
         
-        <div className="flex items-center justify-between text-slate-500 text-sm font-medium">
+        <div className={`flex items-center justify-between text-sm font-medium ${
+          isDark ? 'text-slate-400' : 'text-slate-500'
+        }`}>
           <div className="flex items-center gap-2">
             <UserIcon className="w-4 h-4 text-emerald-500" />
             <span>{user_name || "DailyZone User"}</span>

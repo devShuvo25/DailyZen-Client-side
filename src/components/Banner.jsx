@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import image from "../assets/The Science and Benefits of Habit Formation.jpg"
 import { SparklesIcon, RocketLaunchIcon, ChartBarIcon } from "@heroicons/react/24/outline";
+import useTheme from "../hooks/useTheme";
 
 const FullWidthSlider = () => {
+  const { isDark } = useTheme();
   const cards = [
     {
       title: 'Build Better Habits',

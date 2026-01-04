@@ -7,12 +7,14 @@ import {
   ChatBubbleBottomCenterTextIcon
 } from "@heroicons/react/24/outline";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import useTheme from "../hooks/useTheme";
 import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
 import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 
 const AddHabits = () => {
+  const { isDark } = useTheme();
   const { user } = useAuth();
   const { instance } = useAxiosSecure();
   const navigate = useNavigate();
@@ -56,7 +58,9 @@ const AddHabits = () => {
   };
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen py-12 lg:py-20 px-4">
+    <div className={`min-h-screen py-12 lg:py-20 px-4 transition-colors duration-300 ${
+      isDark ? 'bg-slate-950' : 'bg-[#F8FAFC]'
+    }`}>
       <title>DailyZone - New Habit</title>
       
       <div className="max-w-4xl mx-auto">
@@ -67,14 +71,20 @@ const AddHabits = () => {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-1"
           >
-            <Link to="/my-habits" className="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-500 font-bold transition-colors text-sm mb-4">
+            <Link to="/my-habits" className={`inline-flex items-center gap-2 font-bold transition-colors text-sm mb-4 ${
+              isDark ? 'text-slate-500 hover:text-emerald-400' : 'text-slate-400 hover:text-emerald-500'
+            }`}>
               <FaArrowLeft className="text-xs" /> Back to My Habits
             </Link>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tight">
+            <h1 className={`text-4xl font-black tracking-tight transition-colors duration-300 ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}>
               Create New <span className="text-emerald-500">Habit</span>
             </h1>
-            <p className="text-slate-500 font-medium tracking-wide flex items-center gap-2">
-              <span className="w-8 h-[1px] bg-slate-200" />
+            <p className={`font-medium tracking-wide flex items-center gap-2 transition-colors duration-300 ${
+              isDark ? 'text-slate-400' : 'text-slate-500'
+            }`}>
+              <span className={`w-8 h-[1px] ${isDark ? 'bg-slate-700' : 'bg-slate-200'}`} />
               Build the routine that leads to success
             </p>
           </motion.div>
@@ -82,14 +92,20 @@ const AddHabits = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center gap-3 bg-white p-3 pr-6 rounded-2xl shadow-sm border border-slate-100 self-start"
+            className={`flex items-center gap-3 p-3 pr-6 rounded-2xl shadow-sm border self-start transition-colors duration-300 ${
+              isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'
+            }`}
           >
             <div className="w-10 h-10 rounded-xl overflow-hidden shadow-inner ring-2 ring-emerald-500/10">
               <img src={user?.photoURL} className="w-full h-full object-cover" alt="" />
             </div>
             <div>
-              <p className="text-xs font-black text-slate-400 uppercase tracking-tighter">Journaling as</p>
-              <p className="text-sm font-bold text-slate-900">{user?.displayName}</p>
+              <p className={`text-xs font-black uppercase tracking-tighter transition-colors duration-300 ${
+                isDark ? 'text-slate-500' : 'text-slate-400'
+              }`}>Journaling as</p>
+              <p className={`text-sm font-bold transition-colors duration-300 ${
+                isDark ? 'text-white' : 'text-slate-900'
+              }`}>{user?.displayName}</p>
             </div>
           </motion.div>
         </div>
@@ -99,7 +115,11 @@ const AddHabits = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white p-8 lg:p-12"
+          className={`rounded-[2rem] shadow-xl border p-8 lg:p-12 transition-colors duration-300 ${
+            isDark 
+              ? 'bg-slate-800 shadow-slate-900/50 border-slate-700' 
+              : 'bg-white shadow-slate-200/50 border-white'
+          }`}
         >
           <form onSubmit={handleAddHabits} className="space-y-10">
             {/* Form Grid */}

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
+import useTheme from "../hooks/useTheme";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
 import { FaGoogle, FaEnvelope, FaLock } from "react-icons/fa";
 
 const Login = () => {
+  const { isDark } = useTheme();
   const { googleSignIn, login, setUser } = useAuth();
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -61,7 +63,9 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2 bg-[#F8FAFC]">
+    <div className={`min-h-screen grid lg:grid-cols-2 transition-colors duration-300 ${
+      isDark ? 'bg-slate-950' : 'bg-[#F8FAFC]'
+    }`}>
       <title>DailyZone - Welcome Back</title>
       
       {/* Visual Side */}
@@ -92,8 +96,12 @@ const Login = () => {
           className="w-full max-w-md space-y-10"
         >
           <div className="space-y-3">
-            <h1 className="text-4xl lg:text-5xl font-black text-slate-900">Sign In.</h1>
-            <p className="text-slate-500 font-bold">New to DailyZone? <Link to="/register" className="text-emerald-500 hover:text-emerald-600 underline">Create account</Link></p>
+            <h1 className={`text-4xl lg:text-5xl font-black transition-colors duration-300 ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}>Sign In.</h1>
+            <p className={`font-bold transition-colors duration-300 ${
+              isDark ? 'text-slate-400' : 'text-slate-500'
+            }`}>New to DailyZone? <Link to="/register" className="text-emerald-500 hover:text-emerald-600 underline">Create account</Link></p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -128,7 +136,7 @@ const Login = () => {
               </div>
             </div>
 
-            {error && <p className="text-rose-500 text-sm font-bold bg-rose-50 p-3 rounded-lg border border-rose-100">{error}</p>}
+            {error && <p className={`text-rose-500 text-sm font-bold p-3 rounded-lg border transition-colors duration-300 ${isDark ? 'bg-rose-950/30 border-rose-900/50' : 'bg-rose-50 border-rose-100'}`}>{error}</p>}
 
             <button 
               type="submit" 
@@ -140,14 +148,20 @@ const Login = () => {
           </form>
 
           <div className="relative">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-200"></div></div>
-            <div className="relative flex justify-center text-xs uppercase"><span className="bg-[#F8FAFC] px-4 text-slate-400 font-black tracking-widest">Or social login</span></div>
+            <div className="absolute inset-0 flex items-center"><div className={`w-full border-t ${isDark ? 'border-slate-700' : 'border-slate-200'}`}></div></div>
+            <div className="relative flex justify-center text-xs uppercase"><span className={`px-4 font-black tracking-widest transition-colors duration-300 ${
+              isDark ? 'bg-slate-950 text-slate-500' : 'bg-[#F8FAFC] text-slate-400'
+            }`}>Or social login</span></div>
           </div>
 
           <button 
             type="button" 
             onClick={handleGoogleSignIn}
-            className="w-full py-4 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-200 transition-all shadow-sm"
+            className={`w-full py-4 border-2 rounded-2xl flex items-center justify-center gap-4 font-bold transition-all shadow-sm ${
+              isDark 
+                ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-600'
+                : 'bg-white border-slate-100 text-slate-700 hover:bg-slate-50 hover:border-slate-200'
+            }`}
           >
             <FaGoogle className="text-rose-500" /> Continue with Google
           </button>
