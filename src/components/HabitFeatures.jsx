@@ -141,28 +141,73 @@ const HabitsFeatures = ({children}) => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    {/* Visual Core */}
+                    {/* Visual Core - Redesigned */}
                     <div ref={coreRef} className="relative h-[400px] lg:h-[600px] flex items-center justify-center order-2 lg:order-1">
-                        <div className="absolute inset-0 bg-slate-50 rounded-[4rem] -rotate-3 border border-slate-100" />
+                        {/* Gradient Background Orbs */}
+                        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-br from-emerald-200/40 to-teal-300/40 rounded-full blur-3xl animate-pulse" />
+                        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-gradient-to-br from-indigo-200/40 to-purple-300/40 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}} />
                         
-                        {/* Central Hub */}
-                        <div className="w-40 h-40 bg-white rounded-[2.5rem] shadow-2xl shadow-emerald-500/20 flex items-center justify-center z-10 border border-emerald-50 relative animate-pulse">
-                            <div className="text-6xl font-black text-emerald-500">99%</div>
-                            <div className="absolute -bottom-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-[10px] font-black tracking-widest uppercase shadow-lg">Success Rate</div>
-                        </div>
+                        {/* Main Container */}
+                        <div className="relative w-full max-w-md px-4">
+                            {/* Hero Stat Card */}
+                            <div className="relative bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 rounded-[3rem] p-8 shadow-2xl shadow-emerald-500/30 mb-6 overflow-hidden group hover:scale-105 transition-transform duration-500">
+                                {/* Decorative Elements */}
+                                <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
+                                <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
+                                
+                                <div className="relative z-10">
+                                    <div className="flex items-baseline gap-2 mb-2">
+                                        <span className="text-7xl font-black text-white">99</span>
+                                        <span className="text-4xl font-black text-white/80">%</span>
+                                    </div>
+                                    <p className="text-emerald-50 font-bold text-sm tracking-wider uppercase">Success Rate</p>
+                                    <div className="mt-4 pt-4 border-t border-white/20">
+                                        <p className="text-white/90 text-xs font-medium">Users who build consistent habits achieve their goals</p>
+                                    </div>
+                                </div>
+                            </div>
 
-                        {/* Orbiting Elements */}
-                        <div className="absolute top-10 left-10 benefit-bubble bg-emerald-50 p-6 rounded-[2rem] border border-emerald-100 shadow-sm flex items-center gap-4 max-w-[240px]">
-                            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-emerald-500 shadow-sm"><ArrowTrendingUpIcon className="w-6 h-6" /></div>
-                            <p className="text-xs font-bold text-slate-700">Compounding Progress</p>
-                        </div>
-                        <div className="absolute bottom-20 right-10 benefit-bubble bg-indigo-50 p-6 rounded-[2rem] border border-indigo-100 shadow-sm flex items-center gap-4 max-w-[240px]">
-                            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-indigo-500 shadow-sm"><ShieldCheckIcon className="w-6 h-6" /></div>
-                            <p className="text-xs font-bold text-slate-700">Neural Efficiency</p>
-                        </div>
-                         <div className="absolute top-1/2 -right-4 benefit-bubble bg-amber-50 p-6 rounded-[2rem] border border-amber-100 shadow-sm flex items-center gap-4 max-w-[240px]">
-                            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-amber-500 shadow-sm"><BeakerIcon className="w-6 h-6" /></div>
-                            <p className="text-xs font-bold text-slate-700">Cognitive Freedom</p>
+                            {/* Metric Cards Stack */}
+                            <div className="space-y-4">
+                                {/* Card 1 */}
+                                <div className="benefit-bubble bg-white rounded-[2rem] p-6 shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all duration-300 hover:-translate-y-1">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-14 h-14 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                                            <ArrowTrendingUpIcon className="w-7 h-7 text-white" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-2xl font-black text-slate-900">+127%</p>
+                                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Productivity Boost</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Card 2 */}
+                                <div className="benefit-bubble bg-white rounded-[2rem] p-6 shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-300 hover:-translate-y-1" style={{animationDelay: '0.2s'}}>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-14 h-14 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                                            <ShieldCheckIcon className="w-7 h-7 text-white" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-2xl font-black text-slate-900">21 Days</p>
+                                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">To Form a Habit</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Card 3 */}
+                                <div className="benefit-bubble bg-white rounded-[2rem] p-6 shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-xl hover:shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1" style={{animationDelay: '0.4s'}}>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-14 h-14 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/30">
+                                            <BeakerIcon className="w-7 h-7 text-white" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-2xl font-black text-slate-900">10,000+</p>
+                                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Lives Transformed</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

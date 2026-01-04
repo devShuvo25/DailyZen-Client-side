@@ -76,7 +76,7 @@ const BadHabits = () => {
   ];
 
   return (
-    <section ref={sectionRef} className="relative py-32 lg:py-56 bg-slate-900 overflow-hidden">
+    <section ref={sectionRef} className="relative py-10 mx-5 rounded-[3rem] lg:py-56 bg-slate-900 overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1510519133411-0677aedf78d2?q=80&w=2000')] bg-cover bg-fixed bg-center opacity-5 mix-blend-overlay" />
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-rose-900/10 rounded-full -mr-96 -mt-96 blur-[120px]" />
